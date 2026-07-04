@@ -1,0 +1,16 @@
+{
+  "name": "Help Me Get Out Of Debt",
+  "short_name": "HMGOOD",
+  "description": "Understand your money, kill debt, and build financial freedom.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#071B4D",
+  "theme_color": "#071B4D",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
