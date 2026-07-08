@@ -350,6 +350,9 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13px}
 table.tbl th{text-align:left;font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 8px;border-bottom:1px solid var(--line)}
 table.tbl td{padding:12px 8px;border-bottom:1px solid var(--line)}
 table.tbl tr:last-child td{border-bottom:none}
+/* horizontal-scroll wrapper so wide tables stay inside the app on mobile */
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.tblwrap>table.tbl{min-width:560px}
 .num{font-variant-numeric:tabular-nums}
 
 /* segmented */
@@ -962,132 +965,58 @@ body.landing-mode .tile.hero{min-height:100dvh;justify-content:center;
 .soc-link{display:flex;align-items:center;gap:11px;padding:9px 12px;border:1px solid var(--line);border-radius:11px;text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;transition:border-color .15s,background .15s}
 .soc-link:hover{border-color:var(--soc);background:#f6f8fb}
 .soc-ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:#fff;background:var(--soc);flex:none}
-
-/* ===================== MOBILE POLISH (phones) ===================== */
-@media(max-width:720px){
-  .small,.muted.small{font-size:12.5px !important}
-  input,select,textarea{font-size:16px}
-  input:not([type=checkbox]):not([type=radio]):not([type=range]),select{min-height:44px}
-  .btn{min-height:46px}
-  .btn-sm{min-height:40px}
-  .help-dot{min-width:24px;min-height:24px}
-  .card table.tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .appbar{padding-top:calc(env(safe-area-inset-top))}
-  .main{padding-bottom:84px}
-  body.nav-open{overflow:hidden}
+/* ===== SLIDE-OUT LEFT NAV DRAWER (replaces the top bar on phones/tablets) ===== */
+.scrim{display:none}
+body.nav-open .scrim{display:block;position:fixed;inset:0;background:rgba(7,27,77,.5);z-index:60}
+.nav-edge{display:none;position:fixed;left:0;top:50%;transform:translateY(-50%);width:24px;height:78px;z-index:64;border:0;padding:0;background:transparent;cursor:pointer;transition:opacity .2s}
+.nav-edge::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;border-radius:0 8px 8px 0;background:linear-gradient(180deg,var(--teal),var(--emerald))}
+.nav-edge::after{content:"";position:absolute;left:9px;top:50%;transform:translateY(-50%);width:4px;height:32px;border-radius:3px;background:rgba(13,44,115,.4)}
+body.nav-open .nav-edge{opacity:0;pointer-events:none}
+@media(max-width:860px){
+  .appbar{position:fixed;top:0;left:0;bottom:0;height:auto;width:84vw;max-width:320px;flex-direction:column;align-items:stretch;gap:0;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px calc(env(safe-area-inset-bottom,0px) + 16px);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(-100%);transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:70;box-shadow:0 0 46px rgba(0,0,0,.45)}
+  body.nav-open .appbar{transform:none}
+  .appbrand{margin:0 0 2px;padding:6px 8px}
+  .appbrand-text{display:block}
+  .appback{display:none}
+  .topnav{position:static;transform:none;opacity:1;pointer-events:auto;flex-direction:column;align-items:stretch;flex:none;width:100%;background:transparent;box-shadow:none;padding:6px 0;gap:2px;overflow:visible;margin-top:4px;border-top:1px solid rgba(255,255,255,.08)}
+  .topnav-item{padding:13px 12px;border-radius:10px;font-size:15px;color:#c4d0e0}
+  .topnav-item.active{background:rgba(255,255,255,.10);color:#fff}
+  .topnav-item.active::after{display:none}
+  .appbar-actions{flex-direction:column;align-items:stretch;gap:2px;margin:auto 0 0;width:100%;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
+  .notif{width:100%;position:static}
+  .bell{width:100%;height:auto;display:flex;align-items:center;border-radius:10px;justify-content:flex-start;gap:12px;padding:12px}
+  .bell::after{content:"Notifications";font-size:15px;font-weight:600;color:#c4d0e0}
+  .bell-n{position:static;margin-left:auto}
+  .notif-menu{position:static;width:100%;max-height:260px;box-shadow:none;border:0;background:rgba(255,255,255,.06);margin-top:4px}
+  .acct{width:100%}
+  .userchip{width:100%;justify-content:flex-start;gap:12px;padding:12px;border-radius:10px}
+  .userchip .uname{display:inline;font-size:15px}
+  .userchip svg{margin-left:auto}
+  .acct-menu{position:static !important;opacity:1 !important;visibility:visible !important;transform:none !important;width:100% !important;box-shadow:none;border:0;background:transparent;padding:2px 0 0}
+  .acct-head{padding:6px 12px}
+  .acct-head b{color:#fff}
+  .acct-head .muted{color:#9fb0c6}
+  .acct-item{padding:12px;border-radius:10px;color:#dbe4f0}
+  .acct-item:hover{background:rgba(255,255,255,.08)}
+  .hamburger{display:none !important}
+  .nav-edge{display:block}
+  .main{padding-top:calc(env(safe-area-inset-top,0px) + 4px)}
+  .bizframe-wrap{height:100dvh}
 }
-.tabbar{display:none}
-@media(max-width:720px){
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:1200;
-    background:rgba(255,255,255,.94);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
-    border-top:1px solid var(--line,#e6eaf0);padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(11,31,58,.06);}
-  .tabbar .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:0;cursor:pointer;
-    color:#8090a6;font-size:10.5px;font-weight:700;letter-spacing:.2px;padding:4px 2px;min-height:50px;border-radius:12px;transition:color .15s;}
-  .tabbar .tab svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .tabbar .tab.active{color:var(--navy,#0B1F3A)}
-  .tabbar .tab:active{background:#f1f4f8}
-}
-
-/* ===================== PREMIUM POLISH ===================== */
-/* tactile feedback everywhere (subtle, fast) */
-.btn{transition:transform .12s ease, box-shadow .15s ease, background .15s ease}
-.btn:active{transform:translateY(1px) scale(.985)}
-.card.stat{transition:transform .12s ease, box-shadow .15s ease}
-.card.stat:active{transform:scale(.992)}
-
-/* active tab gets a crisp accent bar */
-.tabbar .tab{position:relative}
-.tabbar .tab.active::before{content:"";position:absolute;top:0;width:20px;height:3px;border-radius:0 0 3px 3px;background:var(--teal)}
-
-@media(max-width:720px){
-  /* denser, better-balanced cards on phones (was 28px → felt loose) */
-  .card{padding:20px;border-radius:18px}
-  .card.pad-lg{padding:22px}
-  /* consistent vertical rhythm between stacked cards */
-  .grid{gap:14px}
-  .grid.cols-2,.grid.cols-3,.grid.cols-4{gap:14px}
-  /* hero figures sized for small screens, tight tracking */
-  .stat .val{font-size:36px;letter-spacing:-1.3px}
-  /* app bar: calmer, with a hairline separator */
-  .appbar{gap:6px;border-bottom:1px solid rgba(255,255,255,.10)}
-  .appbrand-text{display:none}
-  .userchip .uname{display:none}
-  /* page titles: tighter to content */
-  .page-head h1,h1{letter-spacing:-.5px}
-  /* comfortable reading measure for descriptions */
-  .page-head p{line-height:1.5}
-}
-
-/* ===================== MOBILE: no top bar + More sheet ===================== */
-@media(max-width:720px){
-  .appbar{display:none !important}
-  .main{padding-top:calc(env(safe-area-inset-top) + 12px)}
-  /* cookie banner floats clearly ABOVE the bottom tab bar */
-  .cookie-bar{bottom:calc(90px + env(safe-area-inset-bottom));z-index:1400;left:12px;right:12px}
-}
-.more-sheet{display:none}
-@media(max-width:720px){
-  body.more-open{overflow:hidden}
-  .more-sheet{display:flex;flex-direction:column;position:fixed;inset:0;z-index:1300;
-    background:var(--bg,#F7F9FC);
-    padding:calc(env(safe-area-inset-top) + 18px) 16px calc(24px + env(safe-area-inset-bottom));
-    transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);overflow-y:auto}
-  body.more-open .more-sheet{transform:none}
-  .more-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-  .more-user{display:flex;align-items:center;gap:12px;min-width:0}
-  .more-user .avatar{width:46px;height:46px;font-size:16px;flex:none;display:grid;place-items:center;border-radius:50%;
-    background:linear-gradient(135deg,var(--navy-600,#143B86),var(--teal,#2CD5C4));color:#fff;font-weight:800}
-  .more-user b{font-size:17px;letter-spacing:-.3px;display:block}
-  .more-close{width:42px;height:42px;border-radius:13px;background:#fff;border:1px solid var(--line);
-    font-size:22px;line-height:1;color:var(--muted);flex:none}
-  .more-title{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted-2,#9aa7ba);margin:4px 2px 10px}
-  .more-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .more-item{display:flex;flex-direction:column;gap:10px;padding:16px;background:#fff;border:1px solid var(--line);
-    border-radius:18px;font-size:14.5px;font-weight:700;color:var(--ink);text-align:left;min-height:92px;
-    justify-content:space-between;transition:transform .12s,box-shadow .15s;box-shadow:0 1px 2px rgba(7,27,77,.04)}
-  .more-item:active{transform:scale(.97)}
-  .more-item svg{width:24px;height:24px;fill:none;stroke:var(--teal,#0E7C7B);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .more-signout{margin-top:18px;width:100%;color:#D93025;border:1px solid var(--line);background:#fff;
-    min-height:52px;border-radius:14px;font-weight:700}
-}
-
-/* ===== Document Reader review table -> stacked cards on phones ===== */
-@media(max-width:720px){
-  table.aidoc-review-tbl{overflow:visible !important;display:block !important;width:100% !important}
-  table.aidoc-review-tbl thead{display:none !important}
-  table.aidoc-review-tbl tbody,table.aidoc-review-tbl tr,table.aidoc-review-tbl td{display:block !important;width:auto !important;max-width:none !important}
-  .aidoc-review-tbl tr{border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin-bottom:12px;background:#fff;box-shadow:0 1px 2px rgba(7,27,77,.05)}
-  .aidoc-review-tbl td{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0;border:none;border-bottom:1px solid #eef2f7;text-align:right;font-size:13px}
-  .aidoc-review-tbl tr td:last-child{border-bottom:none}
-  .aidoc-review-tbl td::before{content:attr(data-l);font-weight:700;color:var(--muted);text-align:left;flex:none;font-size:12px}
-  .aidoc-review-tbl td[data-l="Source"],.aidoc-review-tbl td[data-l="Customer"]{display:block;text-align:left}
-  .aidoc-review-tbl td[data-l="Source"]::before,.aidoc-review-tbl td[data-l="Customer"]::before{display:block;margin-bottom:4px}
-  .aidoc-review-tbl input[type=number],.aidoc-review-tbl input[type=text]{width:auto !important;max-width:56%;text-align:right}
-  .aidoc-review-tbl input[type=date]{width:auto !important}
-  .aidoc-review-tbl td[data-l="Customer"] input{max-width:100%;text-align:left;margin-top:2px}
-}
-
-/* ===================== BRAND-NAVY: tab bar + More sheet ===================== */
-@media(max-width:720px){
-  /* bottom tab bar -> brand navy */
-  .tabbar{background:linear-gradient(180deg,#0A2059,#071B4D) !important;border-top:1px solid rgba(255,255,255,.10) !important;
-    backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:0 -6px 22px rgba(3,10,30,.35) !important}
-  .tabbar .tab{color:#93a6cc}
-  .tabbar .tab.active{color:#ffffff}
-  .tabbar .tab:active{background:rgba(255,255,255,.08)}
-  .tabbar .tab.active::before{background:var(--teal,#2CD5C4)}
-  /* More tiled page -> brand navy */
-  .more-sheet{background:linear-gradient(180deg,#0A1E4E 0%,#071B4D 55%,#050F2E 100%) !important}
-  .more-title{color:rgba(255,255,255,.5) !important}
-  .more-user b{color:#ffffff !important}
-  .more-sheet .muted,.more-sheet .small{color:rgba(255,255,255,.6) !important}
-  .more-close{background:rgba(255,255,255,.10) !important;border:1px solid rgba(255,255,255,.18) !important;color:#ffffff !important}
-  .more-close:active{background:rgba(255,255,255,.18) !important}
-  .more-item{background:rgba(255,255,255,.06) !important;border:1px solid rgba(255,255,255,.12) !important;color:#ffffff !important;box-shadow:none !important}
-  .more-item:active{background:rgba(255,255,255,.15) !important}
-  .more-item svg{stroke:#2CD5C4 !important}
-  .more-signout{background:rgba(255,255,255,.06) !important;border:1px solid rgba(255,255,255,.16) !important;color:#ff8a8a !important}
-  .more-signout:active{background:rgba(255,255,255,.12) !important}
+/* ===== MOBILE: stacked-card tables (auto-applied to every .tbl site-wide) ===== */
+@media(max-width:640px){
+  .tblwrap{overflow-x:visible}
+  .tblwrap>table.tbl{min-width:0}
+  table.tbl thead{position:absolute!important;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+  table.tbl,table.tbl tbody,table.tbl tr,table.tbl td{display:block;width:auto}
+  table.tbl tr{border:1px solid var(--line);border-radius:12px;padding:2px 14px;margin:0 0 12px;background:#fff}
+  table.tbl td{border:none;border-bottom:1px solid var(--line);padding:11px 0;text-align:right;max-width:none!important;min-height:22px;white-space:normal;overflow-wrap:anywhere;font-size:13px}
+  table.tbl tr:last-child td{border-bottom:1px solid var(--line)}
+  table.tbl tr td:last-child{border-bottom:none}
+  table.tbl td::before{content:attr(data-label);float:left;margin-right:14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);text-align:left;max-width:45%}
+  table.tbl td:not([data-label])::before{display:none}
+  table.tbl td:empty{display:none}
+  table.tbl td input,table.tbl td select,table.tbl td textarea{max-width:62%;display:inline-block}
 }
 </style>
 </head>
@@ -1656,26 +1585,12 @@ root.PDFTextEngine={ extract:extract, _inflateRaw:inflateRaw, _zlibInflate:zlibI
       </button>
     </div>
   </header>
+  <div class="scrim" onclick="document.body.classList.remove('nav-open')"></div>
+  <button class="nav-edge" onclick="document.body.classList.toggle('nav-open')" aria-label="Open navigation menu"></button>
 
   <!-- MAIN -->
   <div class="main">
     <main id="screen"></main>
-  </div>
-  <nav class="tabbar" id="tabbar" aria-label="Primary">
-    <button class="tab" data-sec="dashboard" onclick="App.go('dashboard')" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</button>
-    <button class="tab" data-sec="finances" onclick="App.go('finances')" aria-label="Money"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.3" fill="currentColor" stroke="none"/></svg>Money</button>
-    <button class="tab" data-sec="debt" onclick="App.go('debt')" aria-label="Debt"><svg viewBox="0 0 24 24"><path d="M4 17 10 11l4 4 6-7"/><path d="M15 8h5v5"/></svg>Debt</button>
-    <button class="tab" data-sec="goals" onclick="App.go('goals')" aria-label="Goals"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>Goals</button>
-    <button class="tab" data-more onclick="openMoreSheet()" aria-label="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>More</button>
-  </nav>
-  <div class="more-sheet" id="moreSheet" aria-hidden="true" role="dialog" aria-label="Menu">
-    <div class="more-head">
-      <div class="more-user"><span class="avatar" id="moreAvatar">?</span><div><b id="moreName">Your account</b><div class="muted small" id="moreEmail">&mdash;</div></div></div>
-      <button class="more-close" onclick="closeMoreSheet()" aria-label="Close">&times;</button>
-    </div>
-    <div class="more-title">Go to</div>
-    <div class="more-grid" id="moreGrid"></div>
-    <button class="more-signout" onclick="closeMoreSheet();signOut()">Sign out</button>
   </div>
 </div>
 
@@ -1863,6 +1778,9 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13px}
 table.tbl th{text-align:left;font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 8px;border-bottom:1px solid var(--line)}
 table.tbl td{padding:12px 8px;border-bottom:1px solid var(--line)}
 table.tbl tr:last-child td{border-bottom:none}
+/* horizontal-scroll wrapper so wide tables stay inside the app on mobile */
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.tblwrap>table.tbl{min-width:560px}
 .num{font-variant-numeric:tabular-nums}
 
 .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
@@ -2686,22 +2604,26 @@ e
 n
 t
 }
-/* Business directory (navy tiles) + trigger — mirrors the app's More sheet */
-.biz-fab{display:none}
-.embedded .biz-fab{display:flex;align-items:center;gap:8px;position:fixed;top:calc(env(safe-area-inset-top) + 12px);right:14px;z-index:1250;background:linear-gradient(180deg,#0A2059,#071B4D);color:#fff;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:9px 15px 9px 12px;font-weight:700;font-size:13px;box-shadow:0 6px 18px rgba(3,10,30,.28);cursor:pointer}
-.biz-fab svg{width:18px;height:18px;fill:none;stroke:#2CD5C4;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.biz-fab:active{transform:scale(.97)}
-.biz-dir{display:none;position:fixed;inset:0;z-index:1400;background:linear-gradient(180deg,#0A1E4E 0%,#071B4D 55%,#050F2E 100%);padding:calc(env(safe-area-inset-top) + 18px) 16px calc(24px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);overflow-y:auto}
-body.dir-open .biz-dir{display:block;transform:none}
-body.dir-open{overflow:hidden}
-.biz-dir-head{display:flex;align-items:center;justify-content:space-between;margin:0 auto 18px;max-width:760px}
-.biz-dir-head b{font-size:18px;color:#fff;letter-spacing:-.3px}
-.biz-dir-close{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:22px;line-height:1;cursor:pointer}
-.biz-dir-title{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin:2px auto 10px;max-width:760px}
-.biz-dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;max-width:760px;margin:0 auto}
-.biz-dir-item{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:18px;min-height:92px;justify-content:space-between;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:14.5px;font-weight:700;text-align:left;cursor:pointer;transition:transform .12s,background .15s}
-.biz-dir-item:active{transform:scale(.97);background:rgba(255,255,255,.15)}
-.biz-dir-item svg{width:24px;height:24px;fill:none;stroke:#2CD5C4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* ===== MOBILE: stacked-card tables (auto-applied to every .tbl site-wide) ===== */
+@media(max-width:640px){
+  .tblwrap{overflow-x:visible}
+  .tblwrap>table.tbl{min-width:0}
+  table.tbl thead{position:absolute!important;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+  table.tbl,table.tbl tbody,table.tbl tr,table.tbl td{display:block;width:auto}
+  table.tbl tr{border:1px solid var(--line);border-radius:12px;padding:2px 14px;margin:0 0 12px;background:#fff}
+  table.tbl td{border:none;border-bottom:1px solid var(--line);padding:11px 0;text-align:right;max-width:none!important;min-height:22px;white-space:normal;overflow-wrap:anywhere;font-size:13px}
+  table.tbl tr:last-child td{border-bottom:1px solid var(--line)}
+  table.tbl tr td:last-child{border-bottom:none}
+  table.tbl td::before{content:attr(data-label);float:left;margin-right:14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);text-align:left;max-width:45%}
+  table.tbl td:not([data-label])::before{display:none}
+  table.tbl td:empty{display:none}
+  table.tbl td input,table.tbl td select,table.tbl td textarea{max-width:62%;display:inline-block}
+}
+/* ===== edge handle: swipe/tap opens the site's main navigation drawer ===== */
+.nav-edge{display:none;position:fixed;left:0;top:50%;transform:translateY(-50%);width:24px;height:78px;z-index:64;border:0;padding:0;background:transparent;cursor:pointer}
+.nav-edge::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;border-radius:0 8px 8px 0;background:var(--brand)}
+.nav-edge::after{content:"";position:absolute;left:9px;top:50%;transform:translateY(-50%);width:4px;height:32px;border-radius:3px;background:rgba(13,44,115,.4)}
+@media(max-width:860px){ .nav-edge{display:block} }
 </style>
 </head>
 <body>
@@ -2723,15 +2645,10 @@ body.dir-open{overflow:hidden}
       </button>
     </div>
   </header>
+  <button class="nav-edge" onclick="try{parent.postMessage({__nav:'open'},'*')}catch(e){}" aria-label="Open navigation menu"></button>
 
   <div class="main">
     <main id="screen"></main>
-  </div>
-  <button class="biz-fab" onclick="openBizDirectory()" aria-label="Business sections"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Sections</button>
-  <div class="biz-dir" id="bizDir" aria-hidden="true" role="dialog" aria-label="Business sections">
-    <div class="biz-dir-head"><b>Business engine</b><button class="biz-dir-close" onclick="closeBizDirectory()" aria-label="Close">&times;</button></div>
-    <div class="biz-dir-title">Go to</div>
-    <div class="biz-dir-grid" id="bizDirGrid"></div>
   </div>
 </div>
 
@@ -3284,28 +3201,6 @@ const NAV = [
   {id:"documents",    label:"Documents"},
   {id:"structure",    label:"Structure"},
 ];
-var BIZ_IC={
-  overview:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
-  score:'<circle cx="12" cy="12" r="9"/><path d="M12 12l4.5-2.5"/><path d="M12 3v3"/>',
-  cashflow:'<path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/>',
-  invoices:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
-  receiving:'<path d="M5 12l7 7 7-7"/><path d="M12 5v14"/>',
-  debt:'<path d="M4 17 10 11l4 4 6-7"/><path d="M15 8h5v5"/>',
-  inventory:'<path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/>',
-  profitability:'<path d="M4 19V5M10 19v-8M16 19v-5M20 19H2"/>',
-  tax:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
-  insurance:'<path d="M12 3l7 3v6c0 5-7 9-7 9s-7-4-7-9V6z"/>',
-  suppliers:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
-  economy:'<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>',
-  customers:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5.5a3 3 0 0 1 0 5.7"/>',
-  marketing:'<path d="M3 11l16-6-3 14-5-5-5 3z"/>',
-  documents:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',
-  structure:'<rect x="9" y="3" width="6" height="5"/><rect x="3" y="15" width="6" height="5"/><rect x="15" y="15" width="6" height="5"/><path d="M12 8v3M6 15v-2h12v2"/>'
-};
-function openBizDirectory(){ var g=document.getElementById("bizDirGrid"); if(!g) return;
-  g.innerHTML=NAV.map(function(it){ return '<button class="biz-dir-item" onclick="App.go(\''+it.id+'\');closeBizDirectory()"><svg viewBox="0 0 24 24">'+(BIZ_IC[it.id]||"")+'</svg>'+it.label+'</button>'; }).join("");
-  document.body.classList.add("dir-open"); var d=document.getElementById("bizDir"); if(d) d.setAttribute("aria-hidden","false"); }
-function closeBizDirectory(){ document.body.classList.remove("dir-open"); var d=document.getElementById("bizDir"); if(d) d.setAttribute("aria-hidden","true"); }
 
 const App = {
   current:"overview",
@@ -3566,9 +3461,9 @@ Views.documents = ()=>{
     </div>
     ${(()=>{ const a=getAudit(); return `<div class="card pad-lg" style="margin-top:16px">
       <div class="card-head"><h3>Audit log</h3><span class="sub">${a.length} entries · every applied number traces to its PDF</span></div>
-      ${a.length?`<table class="tbl"><thead><tr><th>When</th><th>Document</th><th>Field</th><th>Value</th><th>Direction</th><th>Module</th><th>Confidence</th><th>Source text</th><th>Action</th></tr></thead><tbody>
+      ${a.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>When</th><th>Document</th><th>Field</th><th>Value</th><th>Direction</th><th>Module</th><th>Confidence</th><th>Source text</th><th>Action</th></tr></thead><tbody>
         ${a.slice(0,40).map(e=>`<tr><td class="sub" style="font-size:11px">${e.time}</td><td>${e.doc}</td><td><b>${e.field}</b></td><td>${money0(e.value)}</td><td>${dirBadge(e.direction)}</td><td class="sub">${e.target}</td><td>${confBadge(e.confidence)}</td><td class="sub" style="font-size:11px;max-width:220px">${(e.source||'').replace(/</g,'&lt;')}</td><td><span class="badge ${e.action==='added'?'feat':''}">${e.action}</span></td></tr>`).join("")}
-      </tbody></table>`:`<div class="empty">No data applied yet — upload a PDF and approve the figures to build your audit trail.</div>`}
+      </tbody></table></div>`:`<div class="empty">No data applied yet — upload a PDF and approve the figures to build your audit trail.</div>`}
     </div>`; })()}
     <div class="card pad-lg" style="margin-top:16px">
       <div class="card-head"><h3>Can't read a PDF? Enter the figures</h3><span class="sub">Updates ${ak}'s tiles</span></div>
@@ -5154,24 +5049,24 @@ function approveAll(){
 function reviewCard(r){
   const idQ="'"+r.id+"'";
   const dupBanner = r.dup ? `<div class="empty" style="border:1px solid var(--watch);background:#fff8e6;color:#7a5a06;margin-bottom:12px">${svg(ICON_DOC,14)} <b>Possible duplicate</b> \u2014 looks identical to <b>${r.dup}</b> already uploaded. Items are unticked by default so you don't double-count. Tick only if this is genuinely new.</div>` : "";
-  const headRow = `<table class="tbl aidoc-review-tbl" style="margin-bottom:6px"><thead><tr><th>Document type</th><th>Entity</th><th>Money direction</th><th>Doc confidence</th></tr></thead>
-    <tbody><tr><td data-l="Document type"><b>${r.docType}</b></td><td data-l="Entity">${r.entity?r.entity.name+' <span class="sub">('+r.entity.kind+')</span>':'\u2014'}</td><td data-l="Money direction">${dirBadge(r.direction)}</td><td data-l="Confidence">${confBadge(r.docConfidence)} ${statusBadge(confStatus(r.docConfidence))}</td></tr></tbody></table>`;
+  const headRow = `<div class="tblwrap" style="margin-bottom:6px"><table class="tbl"><thead><tr><th>Document type</th><th>Entity</th><th>Money direction</th><th>Doc confidence</th></tr></thead>
+    <tbody><tr><td><b>${r.docType}</b></td><td>${r.entity?r.entity.name+' <span class="sub">('+r.entity.kind+')</span>':'\u2014'}</td><td>${dirBadge(r.direction)}</td><td>${confBadge(r.docConfidence)} ${statusBadge(confStatus(r.docConfidence))}</td></tr></tbody></table></div>`;
   const fieldRows=(r.efields||[]).map(x=>`<tr style="${x.include?'':'opacity:.55'}">
-    <td data-l="Use"><input type="checkbox" ${x.include?'checked':''} onchange="toggleField(${idQ},'${x.key}')"></td>
-    <td data-l="Field"><b>${x.label}</b></td>
-    <td data-l="Value"><input type="number" value="${x.value}" style="width:120px" onchange="editReviewField(${idQ},'${x.key}',this.value)"></td>
-    <td data-l="Source" class="sub" style="max-width:230px;font-size:11px">${(x.source||'').replace(/</g,'&lt;')}</td>
-    <td data-l="Direction">${dirBadge(x.direction)}</td><td data-l="Module" class="sub">${x.target}</td>
-    <td data-l="Confidence">${confBadge(x.confidence)}</td><td data-l="Status">${statusBadge(x.status)}</td></tr>`).join("");
+    <td><input type="checkbox" ${x.include?'checked':''} onchange="toggleField(${idQ},'${x.key}')"></td>
+    <td><b>${x.label}</b></td>
+    <td><input type="number" value="${x.value}" style="width:120px" onchange="editReviewField(${idQ},'${x.key}',this.value)"></td>
+    <td class="sub" style="max-width:230px;font-size:11px">${(x.source||'').replace(/</g,'&lt;')}</td>
+    <td>${dirBadge(x.direction)}</td><td class="sub">${x.target}</td>
+    <td>${confBadge(x.confidence)}</td><td>${statusBadge(x.status)}</td></tr>`).join("");
   const invRow=r.inv?`<tr style="${r.inv.include?'':'opacity:.55'};background:#f6f9ff">
-    <td data-l="Use"><input type="checkbox" ${r.inv.include?'checked':''} onchange="toggleInv(${idQ})"></td>
-    <td data-l="Field"><b>Invoice${r.inv.number?' #'+r.inv.number:''}</b></td>
-    <td data-l="Value"><input type="number" value="${r.inv.amount||0}" style="width:120px" onchange="editReviewInv(${idQ},'amount',this.value)"></td>
-    <td data-l="Customer" class="sub" style="font-size:11px"><input type="text" value="${(r.inv.customer||'').replace(/"/g,'&quot;')}" placeholder="customer" style="width:140px" onchange="editReviewInv(${idQ},'customer',this.value)"> \u00b7 due <input type="date" value="${r.inv.dueDate||''}" onchange="editReviewInv(${idQ},'dueDate',this.value)"></td>
-    <td data-l="Direction">${dirBadge(r.inv.direction||'In')}</td><td data-l="Module" class="sub">Invoices</td>
-    <td data-l="Confidence">${confBadge(r.docConfidence)}</td><td data-l="Status">${statusBadge(confStatus(r.docConfidence))}</td></tr>`:"";
+    <td><input type="checkbox" ${r.inv.include?'checked':''} onchange="toggleInv(${idQ})"></td>
+    <td><b>Invoice${r.inv.number?' #'+r.inv.number:''}</b></td>
+    <td><input type="number" value="${r.inv.amount||0}" style="width:120px" onchange="editReviewInv(${idQ},'amount',this.value)"></td>
+    <td class="sub" style="font-size:11px"><input type="text" value="${(r.inv.customer||'').replace(/"/g,'&quot;')}" placeholder="customer" style="width:140px" onchange="editReviewInv(${idQ},'customer',this.value)"> \u00b7 due <input type="date" value="${r.inv.dueDate||''}" onchange="editReviewInv(${idQ},'dueDate',this.value)"></td>
+    <td>${dirBadge(r.inv.direction||'In')}</td><td class="sub">Invoices</td>
+    <td>${confBadge(r.docConfidence)}</td><td>${statusBadge(confStatus(r.docConfidence))}</td></tr>`:"";
   const body = (r.efields.length||r.inv)
-    ? `<table class="tbl aidoc-review-tbl"><thead><tr><th>Use</th><th>Field</th><th>Extracted value</th><th>Source text (from PDF)</th><th>Direction</th><th>Module</th><th>Confidence</th><th>Status</th></tr></thead><tbody>${fieldRows}${invRow}</tbody></table>`
+    ? `<div class="tblwrap"><table class="tbl"><thead><tr><th>Use</th><th>Field</th><th>Extracted value</th><th>Source text (from PDF)</th><th>Direction</th><th>Module</th><th>Confidence</th><th>Status</th></tr></thead><tbody>${fieldRows}${invRow}</tbody></table></div>`
     : `<div class="empty">Couldn't pick out figures automatically \u2014 the document may be an image-only scan. Try a clearer copy, or use the manual entry box below.</div>`;
   return `<div class="card pad-lg" style="margin-bottom:14px;border:2px solid ${r.parked?'var(--watch)':'var(--brand)'}">
     <div class="card-head"><h3>${svg(ICON_DOC,16)} ${r.parked?'Needs review':'Review before saving'}: ${r.name}</h3><span class="badge feat">${r.docType}</span></div>
@@ -5726,6 +5621,51 @@ function safeDivide(top, bottom){
 /* [removed] orphaned second calc engine (Views.live + r* + stabilityScore) — superseded by the live calculate* engine */
 
 App.init();
+
+/* MOBILE STACKED-CARD TABLES — copy each column header into its cells as data-label
+   so that when CSS collapses tables into cards on phones, every value is labelled. */
+(function(){
+  function labelize(){
+    var tables=document.querySelectorAll('table.tbl');
+    for(var t=0;t<tables.length;t++){
+      var tbl=tables[t], head=tbl.tHead;
+      if(!head||!head.rows.length) continue;
+      var hc=head.rows[0].cells, labels=[];
+      for(var i=0;i<hc.length;i++) labels.push((hc[i].textContent||'').trim());
+      for(var b=0;b<tbl.tBodies.length;b++){
+        var rows=tbl.tBodies[b].rows;
+        for(var r=0;r<rows.length;r++){
+          var cells=rows[r].cells;
+          if(cells.length===1 && cells[0].colSpan>1) continue;      // skip section/summary rows
+          for(var c=0;c<cells.length;c++){
+            if(labels[c] && !cells[c].hasAttribute('data-label')) cells[c].setAttribute('data-label',labels[c]);
+          }
+        }
+      }
+    }
+  }
+  var q=false;
+  function schedule(){ if(q)return; q=true; var run=function(){q=false; try{labelize();}catch(e){}}; setTimeout(run,30); }
+  if(document.readyState!=='loading') schedule(); else document.addEventListener('DOMContentLoaded',schedule);
+  try{ new MutationObserver(schedule).observe(document.documentElement||document.body,{childList:true,subtree:true}); }catch(e){}
+})();
+
+/* EDGE-SWIPE (embedded dashboard) — swiping right from the left edge asks the parent site to open its main nav drawer */
+(function(){
+  if(window.self===window.top) return;   // only meaningful when embedded in the site
+  var EDGE=30, THRESH=55, sx=0, sy=0, tracking=false, fromEdge=false;
+  document.addEventListener('touchstart', function(e){
+    if(e.touches.length!==1){ tracking=false; return; }
+    var t=e.touches[0]; sx=t.clientX; sy=t.clientY; fromEdge=sx<=EDGE; tracking=fromEdge;
+  }, {passive:true});
+  document.addEventListener('touchmove', function(e){
+    if(!tracking||e.touches.length!==1) return;
+    var t=e.touches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Math.abs(dy)>Math.abs(dx)){ tracking=false; return; }
+    if(fromEdge && dx>THRESH){ try{ parent.postMessage({__nav:'open'}, '*'); }catch(e){} tracking=false; }
+  }, {passive:true});
+  document.addEventListener('touchend', function(){ tracking=false; }, {passive:true});
+})();
 
 @@ENDSCRIPT@@
 </body>
@@ -8126,10 +8066,8 @@ const App = {
     el.scrollTo?.(0,0); window.scrollTo(0,0);
     document.body.classList.remove("nav-open");
     this.syncBack();
-    this.syncTabBar();
   },
   back(){ if(this._hist.length){ this.go(this._hist.pop(), true); } },
-  syncTabBar(){ const cur=this.current; document.querySelectorAll("#tabbar .tab[data-sec]").forEach(function(t){ t.classList.toggle("active", t.getAttribute("data-sec")===cur); }); },
   syncBack(){ const b=$("#backBtn"); if(!b) return; const hide = !this._hist.length || ["home","signin","signup","verify"].includes(this.current); b.style.display = hide ? "none" : "grid"; },
   init(){
     const a=$("#avatarInit"); if(a) a.textContent=DB.user.initials;
@@ -10485,7 +10423,7 @@ const Solver = {
       </div>`;
   },
   decTable(list){
-    return `<table style="width:100%;border-collapse:collapse;font-size:13px">
+    return `<table class="tbl" style="width:100%;border-collapse:collapse;font-size:13px">
       <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px">
         <th style="padding:8px 6px">Decision</th><th>Fit</th><th>Wealth</th><th>Stability</th><th>Income</th><th>Reversible</th></tr></thead>
       <tbody>${list.map(d=>`<tr style="border-top:1px solid var(--line)">
@@ -10503,7 +10441,7 @@ const Solver = {
     return `<div class="card pad-lg"><div class="card-head"><h3>Career path comparison</h3>
         <span class="muted small">based on your $${money0(R.income*12).replace('$','')}/yr & ${p.industry}</span></div>
       ${goalLine}
-      <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <table class="tbl" style="width:100%;border-collapse:collapse;font-size:12.5px">
         <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
           <th style="padding:8px 6px">Path</th><th>1-yr</th><th>5-yr</th><th>10-yr</th><th>Cost</th><th>Lost income</th><th>Payback</th><th>Job odds</th><th>Burnout</th></tr></thead>
         <tbody>${R.career.map((p,i)=>`<tr style="border-top:1px solid var(--line);${i===0?'background:var(--healthy-soft)':''}">
@@ -10528,7 +10466,7 @@ const Solver = {
         <div style="font-size:19px;font-weight:800;margin:6px 0">${E.worst.name}</div>
         <div class="small">Lifetime value <b class="${E.worst.ltv<0?'neg':''}">${money(E.worst.ltv)}</b> · payback ${E.worst.payback}y</div></div></div>
       <div class="card pad-lg"><div class="card-head"><h3>Education quality engine</h3><span class="muted small">${this.profile.education} now · ${E.yearsLeft} earning years left</span></div>
-      <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <table class="tbl" style="width:100%;border-collapse:collapse;font-size:12.5px">
         <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
           <th style="padding:8px 6px">Course</th><th>Cost</th><th>Duration</th><th>Completion</th><th>Employment</th><th>Income lift</th><th>Lifetime value</th><th>Quality</th></tr></thead>
         <tbody>${E.courses.map((c,i)=>`<tr style="border-top:1px solid var(--line);${i===0&&!c.attained?'background:var(--healthy-soft)':''};${c.attained?'opacity:.55':''}">
@@ -10576,7 +10514,7 @@ const Solver = {
         <div class="card-head"><h3>Housing position</h3><span class="pill ${stress?'down':'up'}">${svRound(R.housingRatio*100)}% of income</span></div>
         <p class="small muted">Housing costs $${money0(R.housing).replace('$','')}/mo — ${svRound(R.housingRatio*100)}% of your income. ${stress?'That is in the stress zone (over 40%); reducing it is one of your highest-impact moves.':'That is within a healthy range (under 30–35% is ideal).'}</p></div>
       <div class="card pad-lg"><div class="card-head"><h3>Optimisation options</h3></div>
-        <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <table class="tbl" style="width:100%;border-collapse:collapse;font-size:13px">
           <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
             <th style="padding:8px 6px">Action</th><th>Monthly</th><th>Annual</th><th>10-yr wealth</th><th>Effort</th><th>Speed</th><th>Confidence</th></tr></thead>
           <tbody>${R.housingOpts.map(o=>`<tr style="border-top:1px solid var(--line)">
@@ -10597,7 +10535,7 @@ const Solver = {
           <div><div class="muted small">10-yr wealth if invested</div><div style="font-size:24px;font-weight:800">${money(total10)}</div></div>
         </div></div>
       <div class="card pad-lg"><div class="card-head"><h3>Home savings engine</h3><span class="muted small">sorted by 10-yr impact</span></div>
-        <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <table class="tbl" style="width:100%;border-collapse:collapse;font-size:13px">
           <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
             <th style="padding:8px 6px">Category</th><th>You spend</th><th>Monthly saving</th><th>Annual</th><th>10-yr wealth</th><th>Effort</th><th>Difficulty</th><th>Speed</th><th>Confidence</th></tr></thead>
           <tbody>${R.savingsOpts.map(o=>`<tr style="border-top:1px solid var(--line)">
@@ -10618,7 +10556,7 @@ const Solver = {
           ${G.blockers.map(b=>`<div class="small" style="margin-top:5px">• ${b}</div>`).join("")}
           <p class="small" style="margin-top:8px"><b>Why:</b> chasing returns on an unstable base is how people end up forced to sell at the worst time, or back into debt. Fix the base, then invest with confidence.</p></div>`;
     return banner + `<div class="card pad-lg"><div class="card-head"><h3>${G.safe?'Where to put your surplus':'Stabilisation priorities (use these first)'}</h3></div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <table class="tbl" style="width:100%;border-collapse:collapse;font-size:13px">
         <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
           <th style="padding:8px 6px">Option</th><th>Typical return</th><th>Risk</th><th>Notes</th></tr></thead>
         <tbody>${G.options.map(o=>`<tr style="border-top:1px solid var(--line)">
@@ -10630,7 +10568,7 @@ const Solver = {
     const R=this.R;
     return `<div class="card pad-lg"><div class="card-head"><h3>Decision simulator — every option scored</h3>
         <span class="muted small">0–100 fit for your exact situation</span></div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <table class="tbl" style="width:100%;border-collapse:collapse;font-size:13px">
         <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
           <th style="padding:8px 6px">Decision</th><th>Fit</th><th>Wealth</th><th>Stability</th><th>Income</th><th>Risk</th><th>Worst case</th><th>Reversible</th></tr></thead>
         <tbody>${R.decisions.map((d,i)=>`<tr style="border-top:1px solid var(--line);${i===0?'background:var(--healthy-soft)':''}">
@@ -10648,7 +10586,7 @@ const Solver = {
     const cell=v=>v.cf>=0?'pos':'neg';
     return `<div class="card pad-lg" style="margin-bottom:18px"><div class="card-head"><h3>Stress test — 10 scenarios</h3>
         <span class="muted small">applied to your real cash flow</span></div>
-      <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <table class="tbl" style="width:100%;border-collapse:collapse;font-size:12.5px">
         <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
           <th style="padding:8px 6px">Scenario</th><th>Income</th><th>Essential spend</th><th>Monthly cash flow</th><th>Survival</th><th>12-mo net worth</th><th>Failure risk</th></tr></thead>
         <tbody>${S.map(s=>`<tr style="border-top:1px solid var(--line)">
@@ -12042,7 +11980,7 @@ const Hub = {
     const sorted=this.fines.map((f,i)=>({...f,i})).sort((a,b)=>{ const da=a.due?new Date(a.due):new Date(8e15), db=b.due?new Date(b.due):new Date(8e15); return da-db; });
     const perWeek= total/weeks;
     if(!this.fines.length){ HubOut("finesOut",`<div class="card pad-lg muted">No fines added yet — add one above to build a plan.</div>`); return; }
-    HubOut("finesOut", `<table style="width:100%;border-collapse:collapse;font-size:13px">
+    HubOut("finesOut", `<table class="tbl" style="width:100%;border-collapse:collapse;font-size:13px">
       <thead><tr style="text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase">
         <th style="padding:8px 6px">Priority</th><th>Fine</th><th>Amount</th><th>Due</th><th>Status</th><th></th></tr></thead>
       <tbody>${sorted.map((f,rank)=>{
@@ -13107,7 +13045,7 @@ App.init();
 
   if (configured) {
    try {
-    const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+    const { createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
     const sb = createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
     });
@@ -13161,35 +13099,68 @@ App.init();
   if (window.onFirebaseInit) window.onFirebaseInit(window.SUPABASE_READY);
 </script>
 <script>
-/* Mobile "More" sheet — full navigation + account, replaces the top bar */
-(function(){
-  var IC={
-    dashboard:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
-    finances:'<rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/>',
-    budget:'<path d="M4 19V5M10 19v-8M16 19v-5M20 19H2"/>',
-    debt:'<path d="M4 17 10 11l4 4 6-7"/><path d="M15 8h5v5"/>',
-    goals:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/>',
-    projection:'<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>',
-    business:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
-    food:'<path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>',
-    hub:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.6-.9 1.2"/><circle cx="12" cy="16.5" r=".6" fill="currentColor" stroke="none"/>',
-    community:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5.5a3 3 0 0 1 0 5.7M21 20a6 6 0 0 0-4-5.6"/>'
-  };
-  var LINKS=[['dashboard','Dashboard'],['finances','My Finances'],['budget','Budget'],['debt','Debt Plan'],['goals','Goals'],['projection','Projection'],['business','Business'],['food','Food Savings'],['hub','Help Hub'],['community','Community']];
-  window.openMoreSheet=function(){
-    var g=document.getElementById('moreGrid'); if(!g) return;
-    g.innerHTML=LINKS.map(function(l){ return '<button class="more-item" onclick="App.go(\''+l[0]+'\');closeMoreSheet()"><svg viewBox="0 0 24 24">'+(IC[l[0]]||'')+'</svg>'+l[1]+'</button>'; }).join('');
-    try{ var u=(window.DB&&DB.user)||{}; document.getElementById('moreName').textContent=u.name||'Your account'; document.getElementById('moreAvatar').textContent=u.initials||(u.name?u.name[0]:'?'); var em=document.getElementById('moreEmail'); if(em) em.textContent=u.email||''; }catch(e){}
-    document.body.classList.add('more-open'); var s=document.getElementById('moreSheet'); if(s) s.setAttribute('aria-hidden','false');
-  };
-  window.closeMoreSheet=function(){ document.body.classList.remove('more-open'); var s=document.getElementById('moreSheet'); if(s) s.setAttribute('aria-hidden','true'); };
-})();
-</script>
-<script>
 /* PWA: register service worker (network-first; offline fallback) */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function(){}); });
 }
+</script>
+<script>
+/* MOBILE STACKED-CARD TABLES — copy each column header into its cells as data-label
+   so that when CSS collapses tables into cards on phones, every value is labelled. */
+(function(){
+  function labelize(){
+    var tables=document.querySelectorAll('table.tbl');
+    for(var t=0;t<tables.length;t++){
+      var tbl=tables[t], head=tbl.tHead;
+      if(!head||!head.rows.length) continue;
+      var hc=head.rows[0].cells, labels=[];
+      for(var i=0;i<hc.length;i++) labels.push((hc[i].textContent||'').trim());
+      for(var b=0;b<tbl.tBodies.length;b++){
+        var rows=tbl.tBodies[b].rows;
+        for(var r=0;r<rows.length;r++){
+          var cells=rows[r].cells;
+          if(cells.length===1 && cells[0].colSpan>1) continue;      // skip section/summary rows
+          for(var c=0;c<cells.length;c++){
+            if(labels[c] && !cells[c].hasAttribute('data-label')) cells[c].setAttribute('data-label',labels[c]);
+          }
+        }
+      }
+    }
+  }
+  var q=false;
+  function schedule(){ if(q)return; q=true; var run=function(){q=false; try{labelize();}catch(e){}}; setTimeout(run,30); }
+  if(document.readyState!=='loading') schedule(); else document.addEventListener('DOMContentLoaded',schedule);
+  try{ new MutationObserver(schedule).observe(document.documentElement||document.body,{childList:true,subtree:true}); }catch(e){}
+})();
+</script>
+<script>
+/* EDGE-SWIPE NAVIGATION — swipe right from the left edge to open the drawer, swipe left (or tap the dimmer) to close */
+(function(){
+  var b=document.body, EDGE=30, THRESH=55;
+  var sx=0, sy=0, tracking=false, fromEdge=false;
+  function isOpen(){ return b.classList.contains('nav-open'); }
+  document.addEventListener('touchstart', function(e){
+    if(e.touches.length!==1){ tracking=false; return; }
+    var t=e.touches[0]; sx=t.clientX; sy=t.clientY;
+    fromEdge = sx<=EDGE;
+    tracking = fromEdge || isOpen();
+  }, {passive:true});
+  document.addEventListener('touchmove', function(e){
+    if(!tracking || e.touches.length!==1) return;
+    var t=e.touches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Math.abs(dy)>Math.abs(dx)){ tracking=false; return; }   // vertical scroll — let it be
+    if(!isOpen() && fromEdge && dx>THRESH){ b.classList.add('nav-open'); tracking=false; }
+    else if(isOpen() && dx<-THRESH){ b.classList.remove('nav-open'); tracking=false; }
+  }, {passive:true});
+  document.addEventListener('touchend', function(){ tracking=false; }, {passive:true});
+  /* the embedded business dashboard swipes inside its own iframe and asks us to open the main drawer */
+  window.addEventListener('message', function(ev){
+    var d=ev&&ev.data;
+    if(!d) return;
+    if(d.__nav==='open') b.classList.add('nav-open');
+    else if(d.__nav==='close') b.classList.remove('nav-open');
+  }, false);
+})();
 </script>
 <script>
 /* ===== Cross-device account sync (Supabase app_state, per user) ===== */
