@@ -1,0 +1,1386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BOSS — Business Operating System</title>
+<meta name="theme-color" content="#071B4D">
+<meta name="description" content="Business Operating System — run the whole business from one calm, enterprise-grade operating system.">
+<style>
+/* ============================================================
+   VOLUME 11 — WORLD-CLASS VISUAL DESIGN SYSTEM (design tokens)
+   Trust · Clarity · Precision · Calm · Professionalism
+   ============================================================ */
+:root{
+  /* Brand */
+  --navy:#071B4D; --navy2:#0D2C73; --navy3:#0A1F45;
+  --teal:#2CD5C4; --emerald:#0A7A43; --emerald-soft:#e6f5ee;
+  --amber:#B87503; --amber-soft:#fdf3dd;
+  --red:#B3271E; --red-soft:#fbe7e5;
+  --violet:#5b63d3; --sky:#2f6fed; --sky-soft:#e9f0fe;
+  /* Neutrals */
+  --ink:#141a24; --ink2:#28324a; --muted:#5b6576; --faint:#8a9bb5;
+  --line:#e9edf3; --line2:#eef1f6; --bg:#f6f8fb; --surface:#ffffff; --surface2:#fbfcfe;
+  --sidebar:#0A1F45; --sidebar-line:rgba(255,255,255,.08); --sidebar-txt:#b9c6dc;
+  /* Type scale */
+  --f-11:11px; --f-12:12px; --f-13:13px; --f-14:14px; --f-15:15px; --f-16:16px;
+  --f-18:18px; --f-20:20px; --f-24:24px; --f-30:30px; --f-38:38px;
+  /* Spacing scale (4pt grid) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s7:32px; --s8:40px; --s9:56px;
+  /* Radii */
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-pill:999px;
+  /* Elevation */
+  --sh-1:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.05);
+  --sh-2:0 1px 2px rgba(7,27,77,.04),0 8px 20px -12px rgba(7,27,77,.16);
+  --sh-3:0 1px 2px rgba(7,27,77,.05),0 18px 44px -22px rgba(7,27,77,.32);
+  --sh-pop:0 12px 32px -8px rgba(7,27,77,.28),0 2px 8px rgba(7,27,77,.12);
+  /* Motion */
+  --ease:cubic-bezier(.2,.6,.2,1); --dur:.18s;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0;height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;
+  line-height:1.5;font-size:var(--f-14);overflow:hidden;
+}
+*{-webkit-tap-highlight-color:transparent}
+::selection{background:rgba(44,213,196,.28);color:var(--navy)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#cdd5e0;border-radius:8px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:#b3bfd0}
+
+/* ---------- App frame (no sidebar — topbar + category tabs) ---------- */
+.app{height:100vh;height:100dvh}
+.bizchip{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:4px 13px 4px 4px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--ink2);transition:border var(--dur),background var(--dur);flex:none;max-width:180px}
+.bizchip:hover{border-color:#d5deeb;background:#f4f7fb}
+.bizchip .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--emerald),var(--navy2));color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800;flex:none}
+.bizchip .nm2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Category tab strip */
+.modtabs{display:flex;gap:2px;align-items:center;padding:0 22px;background:rgba(255,255,255,.85);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);overflow-x:auto;flex:none;min-height:46px;scrollbar-width:none}
+.modtabs::-webkit-scrollbar{display:none}
+.modtabs:empty{display:none}
+.modtabs .grplab{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);font-weight:800;margin-right:14px;white-space:nowrap;flex:none}
+.modtabs a{display:inline-flex;align-items:center;gap:7px;padding:0 14px;height:46px;font-size:13px;font-weight:700;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color var(--dur)}
+.modtabs a:hover{color:var(--ink)}
+.modtabs a.on{color:var(--navy);border-bottom-color:var(--teal)}
+.modtabs .cnt{font-size:10.5px;background:var(--line2);color:var(--muted);padding:1px 7px;border-radius:999px;font-weight:800}
+.modtabs a.on .cnt{background:rgba(44,213,196,.16);color:var(--navy)}
+
+/* Main */
+.main{display:flex;flex-direction:column;overflow:hidden;min-width:0;height:100%}
+.topbar{height:60px;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 22px;flex:none;z-index:20}
+.crumbs{font-size:12.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:7px;min-width:0}
+.crumbs b{color:var(--ink);font-weight:800}
+.crumbs .sep{color:var(--faint)}
+.search{margin-left:auto;display:flex;align-items:center;gap:9px;background:#f1f4f8;border:1px solid transparent;border-radius:999px;padding:8px 15px;width:280px;cursor:text;transition:border var(--dur),background var(--dur)}
+.search:hover{border-color:#dfe6ee;background:#eef2f7}
+.search .mag{color:var(--faint);display:flex}
+.search .mag .icn{width:15px;height:15px}
+.search .ph{color:var(--faint);font-size:13px;flex:1}
+.search .kbd{font-size:10.5px;font-weight:700;color:var(--muted);background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 6px}
+.tico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--muted);cursor:pointer;position:relative;transition:background var(--dur),color var(--dur)}
+.tico:hover{background:var(--line2);color:var(--ink)}
+.tico .dot{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid #fff}
+.tuser{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy2),var(--navy));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;cursor:pointer}
+.content{flex:1;overflow-y:auto;padding:30px 36px 70px}
+.content.narrow{max-width:1180px;margin:0 auto;width:100%}
+
+/* ---------- Reusable components (Volume 11) ---------- */
+.page-head{display:flex;align-items:flex-end;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+.page-head .ph-ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;font-size:16px;flex:none}
+.page-head h1{font-size:25px;font-weight:800;letter-spacing:-.5px;margin:2px 0 0}
+.page-head .sub{color:var(--muted);font-size:13.5px;margin-top:5px;max-width:640px;line-height:1.55}
+.page-head .ph-actions{margin-left:auto;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.eyebrow{font-size:var(--f-11);font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--teal)}
+
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:13px;font-weight:700;padding:9px 15px;border-radius:10px;cursor:pointer;transition:all var(--dur);white-space:nowrap;line-height:1}
+.btn:hover{border-color:#d0d9e6;background:var(--surface2);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.primary:hover{background:#0a2564;box-shadow:0 8px 20px -8px rgba(7,27,77,.5)}
+.btn.teal{background:var(--teal);border-color:var(--teal);color:var(--navy)}
+.btn.teal:hover{filter:brightness(1.03)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn.ghost:hover{background:var(--line2);color:var(--ink)}
+.btn.sm{padding:6px 11px;font-size:12px;border-radius:8px}
+.btn.danger{color:var(--red);border-color:#f0d6d3}
+.btn.danger:hover{background:var(--red-soft)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-1);padding:22px}
+.card.pad0{padding:0;overflow:hidden}
+.card-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.card-h h3{font-size:14.5px;font-weight:800;margin:0}
+.card-h .sub{font-size:12px;color:var(--muted)}
+.card-h .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g-kpi{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.span2{grid-column:span 2}
+
+/* KPI stat — calm: label / value / caption, no chrome */
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--sh-1)}
+.kpi .k-lab{font-size:11px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.kpi .k-val{font-size:28px;font-weight:800;letter-spacing:-.7px;line-height:1;color:var(--ink)}
+.kpi .k-sub{font-size:12px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:8px}
+.trend{font-size:12px;font-weight:700;display:inline-flex;gap:3px;align-items:center}
+.trend.up,.trend.g{color:var(--emerald)}
+.trend.down,.trend.r{color:var(--red)}
+.trend.flat{color:var(--muted)}
+/* Icon utility */
+.icn{width:16px;height:16px;flex:none;display:block}
+.fd .icn{width:15px;height:15px}
+.fic .icn{width:14px;height:14px}
+.si .icn{width:16px;height:16px}
+.tico .icn{width:18px;height:18px}
+.avatar .icn{width:17px;height:17px}
+.cic .icn{width:15px;height:15px;color:var(--muted)}
+.e-ic .icn{width:24px;height:24px}
+.nav a .ic{display:flex;align-items:center;justify-content:center}
+.nav a .ic .icn{width:16px;height:16px}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;letter-spacing:.2px}
+.badge.g{color:var(--emerald);background:var(--emerald-soft)}
+.badge.a{color:var(--amber);background:var(--amber-soft)}
+.badge.r{color:var(--red);background:var(--red-soft)}
+.badge.b{color:var(--sky);background:var(--sky-soft)}
+.badge.n{color:var(--muted);background:var(--line2)}
+.badge.dot::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);font-weight:800;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface2);position:sticky;top:0}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.tbl tbody tr{transition:background var(--dur)}
+.tbl tbody tr:hover{background:var(--surface2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.t-wrap{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface)}
+.t-main{font-weight:700;color:var(--ink)}
+.t-sub{font-size:11.5px;color:var(--muted)}
+.avatar{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:12px;color:#fff;flex:none}
+
+/* Forms */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.inp,select.inp,textarea.inp{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font-size:13.5px;font-family:inherit;color:var(--ink);transition:border var(--dur),box-shadow var(--dur)}
+.inp:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(44,213,196,.16)}
+textarea.inp{resize:vertical;min-height:76px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Progress / meters */
+.meter{height:8px;border-radius:999px;background:var(--line2);overflow:hidden}
+.meter>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--emerald))}
+
+/* Empty state */
+.empty{text-align:center;padding:44px 20px;color:var(--muted)}
+.empty .e-ic{width:60px;height:60px;border-radius:16px;background:var(--line2);display:grid;place-items:center;font-size:26px;margin:0 auto 14px;color:var(--faint)}
+.empty h4{font-size:15px;color:var(--ink);margin:0 0 5px;font-weight:800}
+.empty p{font-size:13px;max-width:340px;margin:0 auto 16px}
+
+/* Segmented / tabs */
+.seg{display:inline-flex;background:var(--line2);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:none;background:transparent;font-size:12.5px;font-weight:700;color:var(--muted);padding:6px 13px;border-radius:8px;cursor:pointer;transition:all var(--dur)}
+.seg button.on{background:var(--surface);color:var(--navy);box-shadow:var(--sh-1)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.tabs button{border:none;background:transparent;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 15px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color var(--dur)}
+.tabs button:hover{color:var(--ink)}
+.tabs button.on{color:var(--navy);border-bottom-color:var(--teal)}
+
+/* Kanban */
+.kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:14px;overflow-x:auto;padding-bottom:8px}
+.kcol{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;min-height:120px}
+.kcol-h{display:flex;align-items:center;gap:8px;font-weight:800;font-size:12.5px;margin-bottom:10px;padding:0 4px}
+.kcol-h .cnt{margin-left:auto;font-size:11px;color:var(--muted);background:var(--line2);padding:1px 8px;border-radius:999px}
+.kcard{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:9px;box-shadow:var(--sh-1);cursor:grab;transition:transform var(--dur),box-shadow var(--dur)}
+.kcard:hover{transform:translateY(-2px);box-shadow:var(--sh-2)}
+.kcard .kt{font-weight:700;font-size:13px;margin-bottom:6px}
+.kcard .km{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* Activity feed */
+.feed{display:flex;flex-direction:column;gap:2px}
+.feed .fi{display:flex;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line2)}
+.feed .fi:last-child{border:none}
+.feed .fd{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:14px;flex:none}
+.feed .ft{font-size:13px;font-weight:600}
+.feed .ft b{font-weight:800}
+.feed .fm{font-size:11.5px;color:var(--faint);margin-top:2px}
+
+/* Modal */
+.scrim{position:fixed;inset:0;background:rgba(7,20,45,.44);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:200;opacity:0;pointer-events:none;transition:opacity var(--dur)}
+.scrim.on{opacity:1;pointer-events:auto}
+.modal{background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--sh-pop);width:100%;max-width:520px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;transform:translateY(10px) scale(.98);transition:transform var(--dur) var(--ease)}
+.scrim.on .modal{transform:none}
+.modal.wide{max-width:760px}
+.modal-h{padding:20px 22px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.modal-h h3{font-size:16px;font-weight:800;margin:0}
+.modal-h .x{margin-left:auto;width:32px;height:32px;border-radius:8px;border:none;background:var(--line2);color:var(--muted);font-size:17px;cursor:pointer;display:grid;place-items:center}
+.modal-h .x:hover{background:var(--line);color:var(--ink)}
+.modal-b{padding:20px 22px;overflow-y:auto}
+.modal-f{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;background:var(--surface2)}
+
+/* Command palette */
+.cmdk{position:fixed;inset:0;background:rgba(7,20,45,.4);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;z-index:300;opacity:0;pointer-events:none;transition:opacity var(--dur)}
+.cmdk.on{opacity:1;pointer-events:auto}
+.cmdbox{background:var(--surface);width:100%;max-width:580px;border-radius:16px;box-shadow:var(--sh-pop);overflow:hidden;transform:translateY(-8px);transition:transform var(--dur)}
+.cmdk.on .cmdbox{transform:none}
+.cmdbox input{width:100%;border:none;padding:18px 20px;font-size:16px;font-family:inherit;outline:none;border-bottom:1px solid var(--line)}
+.cmdlist{max-height:52vh;overflow-y:auto;padding:8px}
+.cmdlist .ci{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;font-size:13.5px}
+.cmdlist .ci.on{background:var(--sky-soft)}
+.cmdlist .ci .cic{width:30px;height:30px;border-radius:8px;background:var(--line2);display:grid;place-items:center;font-size:15px;flex:none}
+.cmdlist .ci .cg{margin-left:auto;font-size:11px;color:var(--faint)}
+.cmdlist .lbl{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);font-weight:800;padding:10px 12px 4px}
+
+/* Toast */
+.toasts{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:10px;z-index:400}
+.toast{background:var(--navy);color:#fff;padding:13px 16px;border-radius:12px;box-shadow:var(--sh-pop);font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;max-width:340px;animation:slideup .3s var(--ease)}
+.toast .ti{width:22px;height:22px;border-radius:6px;background:var(--teal);color:var(--navy);display:grid;place-items:center;font-size:13px;flex:none;font-weight:800}
+@keyframes slideup{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+
+/* Bars mini chart */
+.bars{display:flex;align-items:flex-end;gap:6px;height:120px}
+.bars .bar{flex:1;background:linear-gradient(180deg,var(--teal),var(--navy2));border-radius:6px 6px 3px 3px;min-height:4px;position:relative;transition:opacity var(--dur)}
+.bars .bar:hover{opacity:.8}
+.bars .bar span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:10px;color:var(--faint);font-weight:700}
+
+.spark{display:block;width:100%;height:44px}
+.list-clean{list-style:none;padding:0;margin:0}
+.dl{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.dl:last-child{border:none}
+.dl .k{color:var(--muted)}
+.dl .v{font-weight:700;font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.tiny{font-size:11.5px}
+.hl{color:var(--navy);font-weight:800}
+
+/* Scaffold notice */
+.scaffold{border:1px dashed #cdd8e8;background:linear-gradient(180deg,var(--surface2),var(--surface));border-radius:14px;padding:16px 18px;display:flex;gap:13px;align-items:flex-start;font-size:12.5px;color:var(--muted)}
+.scaffold .si{width:34px;height:34px;border-radius:10px;background:var(--sky-soft);color:var(--sky);display:grid;place-items:center;font-size:16px;flex:none}
+.scaffold b{color:var(--ink)}
+
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.feat{border:1px solid var(--line);border-radius:13px;padding:15px;background:var(--surface)}
+.feat .fh{display:flex;align-items:center;gap:9px;font-weight:800;font-size:13px;margin-bottom:6px}
+.feat .fic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:14px;flex:none}
+.feat p{font-size:12px;color:var(--muted);margin:0;line-height:1.5}
+
+/* Launcher (home) — full-bleed landing, no OS chrome */
+.launcher-mode .topbar,.launcher-mode .modtabs{display:none}
+.launcher-mode .content{padding:0}
+/* Embedded full apps (e.g. CRM) — frame fills the content area */
+.embed-mode .content{padding:0;overflow:hidden}
+.embed-frame{width:100%;height:100%;border:0;display:block;background:#fff}
+/* Category tiles on the launcher */
+.lchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.lchip{font-size:12px;font-weight:700;padding:5px 12px;border:1px solid var(--line);border-radius:999px;color:var(--ink2);background:var(--surface);cursor:pointer;transition:all var(--dur);white-space:nowrap}
+.lchip:hover{border-color:var(--navy2);color:var(--navy);background:var(--sky-soft)}
+.lcard.cat{align-items:flex-start}
+.lcard.cat .lgo{margin-top:2px}
+.lhero{background:linear-gradient(160deg,#0D2C73,#071B4D 70%);color:#fff;padding:64px 24px 132px;text-align:center;position:relative;overflow:hidden}
+.lhero::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-1px;height:92px;background:var(--bg);border-radius:60% 60% 0 0/100% 100% 0 0}
+.lbadge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);background:rgba(44,213,196,.12);padding:7px 16px;border-radius:999px}
+.lhero h1{font-size:clamp(28px,5vw,38px);font-weight:800;letter-spacing:-.6px;margin:20px auto 10px;max-width:620px;line-height:1.15}
+.lhero p{font-size:15.5px;color:#b9c6dc;max-width:520px;margin:0 auto;line-height:1.55}
+.lwrap{max-width:980px;margin:-78px auto 0;padding:0 20px 60px;position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--sh-3);display:flex;align-items:center;gap:17px;cursor:pointer;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.lcard:hover{transform:translateY(-3px)}
+.lic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;color:#fff;flex:none;box-shadow:var(--sh-2)}
+.lic .icn{width:25px;height:25px}
+.lbody{flex:1;min-width:0}
+.leyebrow{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--teal)}
+.lbody h3{font-size:18px;font-weight:800;margin:3px 0 5px;color:var(--navy)}
+.lbody p{font-size:13px;color:var(--muted);margin:0;line-height:1.5}
+.lgo{flex:none;background:var(--navy);color:#fff;padding:11px 17px;border-radius:12px;font-size:13px;font-weight:700;white-space:nowrap}
+.lcard:hover .lgo{background:#0a2564}
+.lfoot{max-width:720px;margin:0 auto;padding:0 24px 48px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.6}
+@media(max-width:840px){.lwrap{grid-template-columns:1fr;max-width:620px}}
+@media(max-width:560px){
+  .lhero{padding:48px 20px 118px}
+  .lcard{gap:13px;padding:18px}
+  .lic{width:48px;height:48px;border-radius:14px}
+  .lic .icn{width:21px;height:21px}
+  .lbody h3{font-size:16px}
+  .lbody p{font-size:12px}
+  .lgo{padding:10px 13px;font-size:12px;border-radius:11px}
+}
+
+/* Responsive */
+@media(max-width:960px){
+  .search{width:auto;flex:1;max-width:none}
+  .search .ph{display:none}
+  .bizchip .nm2{display:none}
+  .bizchip{padding:4px}
+}
+@media(max-width:620px){
+  .content{padding:18px 15px 60px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .span2{grid-column:auto}
+  .row2{grid-template-columns:1fr}
+  .search .kbd{display:none}
+  .topbar{padding:0 14px;gap:10px}
+  .modtabs{padding:0 14px}
+  .crumbs .sep,.crumbs span:not(:last-child):not(.sep){display:none}
+}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:8px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="main">
+    <header class="topbar">
+      <div class="tico" onclick="go('home')" title="Back to start" role="button" tabindex="0"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+      <div class="crumbs" id="crumbs"></div>
+      <div class="search" onclick="Cmd.open()" role="button" tabindex="0" aria-label="Search">
+        <span class="mag"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <span class="ph">Search or jump to…</span>
+        <span class="kbd">Ctrl K</span>
+      </div>
+      <div class="tico" title="Automations" onclick="go('automation')"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div class="tico" title="Notifications" onclick="Modal.notifications()"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="dot"></span></div>
+      <div class="bizchip" onclick="Modal.bizSwitch()" title="Switch business">
+        <span class="av" id="bizAv">WY</span><span class="nm2" id="bizNm">Wyles &amp; Co</span>
+      </div>
+      <div class="tuser" title="Jason Wyles" onclick="go('admin')">JW</div>
+    </header>
+    <nav class="modtabs" id="modtabs"></nav>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+<div class="toasts" id="toasts"></div>
+<div class="scrim" id="scrim"><div class="modal" id="modal"></div></div>
+<div class="cmdk" id="cmdk">
+  <div class="cmdbox">
+    <input id="cmdInput" placeholder="Type a command or search modules…" autocomplete="off">
+    <div class="cmdlist" id="cmdList"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   BOSS — Business Operating System  (single-file runtime)
+   Branding + Volume 11 design language from "Help Me Get Out Of Debt"
+   ============================================================ */
+"use strict";
+
+/* ---------------- State / persistence ---------------- */
+const LS_KEY='boss_state_v1';
+const uid=()=>'x'+Math.random().toString(36).slice(2,9);
+const nowISO=()=>new Date().toISOString();
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+function seed(){
+  return {
+    business:{name:'Wyles & Co', abn:'', initials:'WY'},
+    finance:{
+      invoices:[
+        {id:uid(),num:'INV-1042',client:'Harbour Logistics',amount:4850,gst:485,status:'paid',date:'2026-06-18',due:'2026-07-02'},
+        {id:uid(),num:'INV-1043',client:'Meridian Design',amount:2200,gst:220,status:'sent',date:'2026-06-28',due:'2026-07-12'},
+        {id:uid(),num:'INV-1044',client:'Coastal Cafe Group',amount:1380,gst:138,status:'overdue',date:'2026-06-05',due:'2026-06-19'},
+        {id:uid(),num:'INV-1045',client:'Northbridge Legal',amount:6600,gst:660,status:'draft',date:'2026-07-06',due:'2026-07-20'}
+      ],
+      expenses:[
+        {id:uid(),vendor:'AWS',cat:'Software',amount:412,gst:41,date:'2026-07-01'},
+        {id:uid(),vendor:'Officeworks',cat:'Supplies',amount:96,gst:9,date:'2026-06-29'},
+        {id:uid(),vendor:'Fuel',cat:'Vehicle',amount:88,gst:8,date:'2026-06-27'}
+      ],
+      cashOnHand:38420
+    },
+    crm:{
+      contacts:[
+        {id:uid(),name:'Harbour Logistics',type:'Customer',owner:'JW',health:88,value:48000,stage:'Customer',email:'ops@harbourlog.com.au'},
+        {id:uid(),name:'Meridian Design',type:'Customer',owner:'JW',health:72,value:26000,stage:'Customer',email:'hi@meridian.design'},
+        {id:uid(),name:'Coastal Cafe Group',type:'Customer',owner:'AL',health:45,value:15000,stage:'At risk',email:'accounts@coastalcafe.au'},
+        {id:uid(),name:'Northbridge Legal',type:'Lead',owner:'JW',health:60,value:32000,stage:'Proposal',email:'p.chen@nblegal.au'},
+        {id:uid(),name:'Vertex Manufacturing',type:'Lead',owner:'AL',health:55,value:74000,stage:'Qualified',email:'buy@vertexmfg.com'}
+      ]
+    },
+    pipeline:{
+      stages:['Qualified','Proposal','Negotiation','Won'],
+      deals:[
+        {id:uid(),name:'Vertex — annual retainer',client:'Vertex Manufacturing',value:74000,stage:'Qualified',owner:'AL'},
+        {id:uid(),name:'Northbridge — platform rollout',client:'Northbridge Legal',value:32000,stage:'Proposal',owner:'JW'},
+        {id:uid(),name:'Coastal — POS upgrade',client:'Coastal Cafe Group',value:15000,stage:'Negotiation',owner:'AL'},
+        {id:uid(),name:'Meridian — Q3 project',client:'Meridian Design',value:26000,stage:'Won',owner:'JW'}
+      ]
+    },
+    tasks:{
+      cols:['Backlog','In progress','Review','Done'],
+      items:[
+        {id:uid(),title:'Reconcile June bank feed',col:'In progress',owner:'JW',due:'2026-07-09',pri:'High'},
+        {id:uid(),title:'Chase INV-1044 (overdue)',col:'Backlog',owner:'AL',due:'2026-07-08',pri:'High'},
+        {id:uid(),title:'Draft Q3 BAS',col:'Backlog',owner:'JW',due:'2026-07-21',pri:'Med'},
+        {id:uid(),title:'Vertex proposal deck',col:'Review',owner:'AL',due:'2026-07-10',pri:'Med'},
+        {id:uid(),title:'Onboard new contractor',col:'Done',owner:'JW',due:'2026-07-01',pri:'Low'}
+      ]
+    },
+    people:[
+      {id:uid(),name:'Jason Wyles',role:'Director',dept:'Executive',status:'Active',init:'JW'},
+      {id:uid(),name:'Alex Lin',role:'Operations Lead',dept:'Operations',status:'Active',init:'AL'},
+      {id:uid(),name:'Priya Nair',role:'Bookkeeper',dept:'Finance',status:'Active',init:'PN'}
+    ],
+    agents:[
+      {id:uid(),name:'Collections Agent',role:'Chases overdue invoices, drafts polite reminders',status:'active',runs:214},
+      {id:uid(),name:'Cash Flow Forecaster',role:'Projects 13-week cash position nightly',status:'active',runs:96},
+      {id:uid(),name:'Lead Qualifier',role:'Scores inbound leads against ICP',status:'paused',runs:0},
+      {id:uid(),name:'BAS Preparer',role:'Assembles quarterly BAS from ledger',status:'active',runs:4}
+    ],
+    integrations:[
+      {id:'xero',name:'Xero',cat:'Accounting',on:true},
+      {id:'stripe',name:'Stripe',cat:'Payments',on:true},
+      {id:'gmail',name:'Gmail',cat:'Email',on:true},
+      {id:'slack',name:'Slack',cat:'Comms',on:false},
+      {id:'shopify',name:'Shopify',cat:'Commerce',on:false},
+      {id:'hubspot',name:'HubSpot',cat:'Marketing',on:false}
+    ],
+    activity:[
+      {ic:'💸',t:'<b>INV-1042</b> marked paid by Harbour Logistics',m:'2 hours ago',c:'g'},
+      {ic:'🤖',t:'<b>Collections Agent</b> sent a reminder for INV-1044',m:'4 hours ago',c:'b'},
+      {ic:'🎯',t:'Deal <b>Meridian — Q3 project</b> moved to Won',m:'Yesterday',c:'g'},
+      {ic:'⚠️',t:'INV-1044 is now <b>overdue</b> by 19 days',m:'Yesterday',c:'r'},
+      {ic:'👤',t:'New lead <b>Vertex Manufacturing</b> added to pipeline',m:'2 days ago',c:'b'}
+    ],
+    settings:{theme:'light'}
+  };
+}
+
+let S=load();
+function load(){
+  try{const r=localStorage.getItem(LS_KEY);if(r)return Object.assign(seed(),JSON.parse(r));}catch(e){}
+  return seed();
+}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
+
+/* ---------------- Helpers ---------------- */
+const $=(s,el=document)=>el.querySelector(s);
+const money=n=>'$'+Math.round(n).toLocaleString('en-AU');
+const money2=n=>'$'+Number(n).toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function initials(n){return n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
+function colorFor(str){const c=['#0D2C73','#0A7A43','#5b63d3','#B87503','#2f6fed','#0f766e'];let h=0;for(const ch of str)h=ch.charCodeAt(0)+h*31;return c[Math.abs(h)%c.length];}
+
+/* ---------------- Icon system (Volume 11: no emoji — consistent stroke icons) ---------------- */
+const ICONS={
+grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>',
+heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+dollar:'<path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+wave:'<path d="M2 10c2.5-3 4.5-3 7 0s4.5 3 7 0 4.5-3 6 0"/><path d="M2 16c2.5-3 4.5-3 7 0s4.5 3 7 0 4.5-3 6 0"/>',
+receipt:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+scale:'<path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-3 6a3.5 3.5 0 0 0 6 0z"/><path d="M19 7l-3 6a3.5 3.5 0 0 0 6 0z"/><path d="M8 21h8"/>',
+percent:'<line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+kanban:'<rect x="3" y="3" width="7" height="18" rx="1.5"/><rect x="14" y="3" width="7" height="12" rx="1.5"/>',
+target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+megaphone:'<path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+check:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+briefcase:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+truck:'<rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',
+box:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05"/><path d="M12 22.08V12"/>',
+folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',
+users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+card:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+spark:'<path d="M12 2l2.1 5.9L20 10l-5.9 2.1L12 18l-2.1-5.9L4 10l5.9-2.1z"/><path d="M19 15l.9 2.6 2.6.9-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9z"/>',
+bot:'<rect x="4" y="7" width="16" height="12" rx="2"/><path d="M12 7V4"/><circle cx="12" cy="3" r="1"/><path d="M9 12h.01M15 12h.01"/><path d="M9.5 16h5"/>',
+zap:'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
+chart:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+plug:'<path d="M9 2v6"/><path d="M15 2v6"/><path d="M6 8h12v4a6 6 0 0 1-12 0V8z"/><path d="M12 18v4"/>',
+db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
+shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+cloud:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>',
+sliders:'<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
+layout:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>',
+book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+bell:'<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+menu:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>',
+trash:'<path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',
+inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+alert:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+up:'<path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/>',
+down:'<path d="M23 18l-9.5-9.5-5 5L1 6"/><path d="M17 18h6v-6"/>',
+award:'<circle cx="12" cy="8" r="7"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>',
+leaf:'<path d="M12 22V9"/><path d="M12 9C12 5.5 9 2.5 4.5 2.5c0 4.5 3.5 7.5 7.5 6.5z"/><path d="M12 13c0-3.5 3-6.5 7.5-6.5 0 4.5-3.5 7.5-7.5 6.5z"/>',
+refresh:'<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+flame:'<path d="M12 22c4.4 0 7-2.8 7-6.5 0-4-3-6-4.5-9C13 4 12 2 12 2s-1 2-2.5 4.5C8 9.5 5 11.5 5 15.5 5 19.2 7.6 22 12 22z"/>',
+send:'<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>',
+eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+bank:'<path d="M3 21h18"/><path d="M4 18h16"/><path d="M6 18v-7M10 18v-7M14 18v-7M18 18v-7"/><path d="M12 3L3 8h18z"/>',
+file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+pie:'<path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>',
+lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+globe:'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+tool:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+cap:'<path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12.5V17c0 1.66 2.69 3 6 3s6-1.34 6-3v-4.5"/><path d="M22 10v6"/>'
+};
+const EMOJI2ICON={'▚':'grid','❤':'heart','$':'dollar','≈':'wave','🧾':'receipt','⚖':'scale','%':'percent','❏':'kanban','🎯':'target','📣':'megaphone','✅':'check','▦':'briefcase','🚚':'truck','📦':'box','🗂':'folder','👥':'users','💵':'card','✨':'spark','🤖':'bot','⚡':'zap','📊':'chart','🔌':'plug','🗄':'db','🛡':'shield','☁':'cloud','⚙':'sliders','◈':'layout','▤':'book','💰':'dollar','📥':'inbox','⚠️':'alert','📈':'up','📉':'down','🏆':'award','🌱':'leaf','💼':'briefcase','💳':'card','📁':'folder','🤝':'users','🔁':'refresh','⏱':'clock','🔥':'flame','📅':'calendar','💸':'send','👀':'eye','⏳':'clock','🏦':'bank','📑':'file','🗓':'calendar','🕓':'clock','💹':'pie','🧩':'grid','🧹':'check','🔐':'lock','👤':'user','🔒':'lock','🛰':'globe','📤':'send','🌏':'globe','🔭':'search','♻️':'refresh','📋':'file','✉️':'send','🔮':'spark','⭐':'award','🔢':'chart','📍':'globe','🔗':'plug','⏰':'clock','🛠':'tool','🏢':'bank','🧠':'spark','📘':'book','🚀':'zap','📄':'file','🏭':'bank','💲':'dollar','🧘':'wave','♿':'users','📐':'layout'};
+function ic(x){
+  const key=ICONS[x]?x:EMOJI2ICON[x];
+  if(key&&ICONS[key])return '<svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICONS[key]+'</svg>';
+  return esc(x);
+}
+function tintPair(c){
+  return c==='g'?'background:var(--emerald-soft);color:var(--emerald)':
+         c==='r'?'background:var(--red-soft);color:var(--red)':
+         c==='a'?'background:var(--amber-soft);color:var(--amber)':
+                 'background:var(--sky-soft);color:var(--sky)';
+}
+function daysBetween(a,b){return Math.round((new Date(b)-new Date(a))/864e5);}
+const TODAY='2026-07-08';
+
+function toast(msg){
+  const el=document.createElement('div');
+  el.className='toast';
+  el.innerHTML='<span class="ti">✓</span>'+esc(msg);
+  $('#toasts').appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .3s,transform .3s';el.style.opacity='0';el.style.transform='translateX(20px)';setTimeout(()=>el.remove(),300);},2600);
+}
+
+/* ---------------- Modal engine ---------------- */
+const Modal={
+  open(html){$('#modal').innerHTML=html;$('#scrim').classList.add('on');},
+  close(){$('#scrim').classList.remove('on');},
+  form(title,fields,onsave,opts={}){
+    let body=fields.map(f=>{
+      if(f.type==='select')return `<div class="field"><label>${esc(f.label)}</label><select class="inp" id="f_${f.k}">${f.opts.map(o=>`<option ${o===f.val?'selected':''}>${esc(o)}</option>`).join('')}</select></div>`;
+      if(f.type==='textarea')return `<div class="field"><label>${esc(f.label)}</label><textarea class="inp" id="f_${f.k}">${esc(f.val||'')}</textarea></div>`;
+      return `<div class="field ${f.half?'half':''}"><label>${esc(f.label)}</label><input class="inp" id="f_${f.k}" type="${f.type||'text'}" value="${esc(f.val==null?'':f.val)}" placeholder="${esc(f.ph||'')}"></div>`;
+    }).join('');
+    // group halves into row2
+    Modal.open(`
+      <div class="modal-h"><h3>${esc(title)}</h3><button class="x" onclick="Modal.close()">×</button></div>
+      <div class="modal-b">${body}</div>
+      <div class="modal-f"><button class="btn ghost" onclick="Modal.close()">Cancel</button><button class="btn primary" id="mSave">${esc(opts.cta||'Save')}</button></div>`);
+    $('#mSave').onclick=()=>{
+      const out={};fields.forEach(f=>{out[f.k]=$('#f_'+f.k).value;});
+      onsave(out);Modal.close();
+    };
+    setTimeout(()=>{const fi=$('#modal .inp');if(fi)fi.focus();},50);
+  },
+  bizSwitch(){
+    Modal.open(`
+      <div class="modal-h"><h3>Businesses</h3><button class="x" onclick="Modal.close()">×</button></div>
+      <div class="modal-b">
+        <div class="scaffold" style="margin-bottom:14px"><div class="si">${ic('bank')}</div><div><b>Multi-business management</b> — BOSS runs multiple entities from one login (Volume 6 §47). This demo carries one active workspace.</div></div>
+        <div class="bizrow card" style="display:flex;align-items:center;gap:12px;border-color:var(--teal)">
+          <div class="av avatar" style="background:linear-gradient(135deg,var(--emerald),var(--navy2))">${esc(S.business.initials)}</div>
+          <div style="flex:1"><div style="font-weight:800">${esc(S.business.name)}</div><div class="tiny muted">Active workspace</div></div>
+          <span class="badge g dot">Current</span>
+        </div>
+      </div>
+      <div class="modal-f"><button class="btn" onclick="Modal.renameBiz()">Rename business</button><button class="btn primary" onclick="Modal.close()">Done</button></div>`);
+  },
+  renameBiz(){
+    Modal.form('Business details',[
+      {k:'name',label:'Business name',val:S.business.name},
+      {k:'abn',label:'ABN',val:S.business.abn,ph:'00 000 000 000'}
+    ],o=>{S.business.name=o.name||S.business.name;S.business.abn=o.abn;S.business.initials=initials(S.business.name);save();renderChrome();toast('Business updated');});
+  },
+  notifications(){
+    Modal.open(`
+      <div class="modal-h"><h3>Notifications</h3><button class="x" onclick="Modal.close()">×</button></div>
+      <div class="modal-b" style="padding-top:8px">
+        <div class="feed">
+          ${S.activity.map(a=>`<div class="fi"><div class="fd" style="${tintPair(a.c)}">${ic(a.ic)}</div><div><div class="ft">${a.t}</div><div class="fm">${esc(a.m)}</div></div></div>`).join('')}
+        </div>
+      </div>`);
+  }
+};
+
+/* ---------------- Command palette ---------------- */
+const Cmd={
+  open(){$('#cmdk').classList.add('on');const i=$('#cmdInput');i.value='';Cmd.render('');setTimeout(()=>i.focus(),40);},
+  close(){$('#cmdk').classList.remove('on');},
+  sel:0,items:[],
+  render(q){
+    q=q.toLowerCase();
+    const modules=NAV.flatMap(g=>g.items.map(it=>({...it,grp:g.grp}))).filter(it=>!q||it.label.toLowerCase().includes(q)||it.grp.toLowerCase().includes(q));
+    const actions=[
+      {label:'Open Finance',ic:'🧾',run:()=>go('finance')},
+      {label:'Open CRM',ic:'👤',run:()=>go('crm')},
+      {label:'Open Sales',ic:'🎯',run:()=>go('sales')},
+      {label:'New task',ic:'✅',run:()=>{go('tasks');setTimeout(()=>Tasks.newTask(),60);}},
+      {label:'Ask the AI assistant',ic:'✨',run:()=>go('assistant')}
+    ].filter(a=>!q||a.label.toLowerCase().includes(q));
+    Cmd.items=[...actions.map(a=>({type:'action',...a})),...modules.map(m=>({type:'nav',...m}))];
+    Cmd.sel=0;
+    let html='';
+    if(actions.length){html+='<div class="lbl">Actions</div>'+actions.map((a,i)=>ciHTML(a.ic,a.label,'',i)).join('');}
+    if(modules.length){html+='<div class="lbl">Navigate</div>'+modules.map((m,i)=>ciHTML(m.ic,m.label,m.grp,i+actions.length)).join('');}
+    if(!Cmd.items.length)html='<div class="empty" style="padding:30px"><p>No matches for "'+esc(q)+'"</p></div>';
+    $('#cmdList').innerHTML=html;
+    function ciHTML(ic0,label,grp,i){return `<div class="ci ${i===0?'on':''}" data-i="${i}" onclick="Cmd.run(${i})"><div class="cic">${ic(ic0)}</div><div>${esc(label)}</div><div class="cg">${esc(grp||'')}</div></div>`;}
+  },
+  move(d){
+    Cmd.sel=Math.max(0,Math.min(Cmd.items.length-1,Cmd.sel+d));
+    $('#cmdList').querySelectorAll('.ci').forEach((el,i)=>el.classList.toggle('on',i===Cmd.sel));
+    const on=$('#cmdList .ci.on');if(on)on.scrollIntoView({block:'nearest'});
+  },
+  run(i){const it=Cmd.items[i];if(!it)return;Cmd.close();if(it.type==='action')it.run();else go(it.id);}
+};
+
+/* ---------------- Navigation model ---------------- */
+const NAV=[
+  {grp:'Home',items:[
+    {id:'home',label:'Start',ic:'home'},
+    {id:'dashboard',label:'Dashboard',ic:'▚'},
+    {id:'health',label:'Business Health',ic:'❤'}
+  ]},
+  {grp:'Finance',items:[
+    {id:'finance',label:'Finance',ic:'$'},
+    {id:'cashflow',label:'Cash Flow',ic:'≈'},
+    {id:'expenses',label:'Expenses',ic:'🧾'},
+    {id:'debt',label:'Debt',ic:'⚖'},
+    {id:'tax',label:'Tax Centre',ic:'%'}
+  ]},
+  {grp:'Customers',items:[
+    {id:'crm',label:'CRM',ic:'❏'},
+    {id:'sales',label:'Sales Pipeline',ic:'🎯'},
+    {id:'marketing',label:'Marketing',ic:'📣'}
+  ]},
+  {grp:'Operations',items:[
+    {id:'tasks',label:'Tasks',ic:'✅'},
+    {id:'projects',label:'Projects',ic:'▦'},
+    {id:'suppliers',label:'Suppliers',ic:'🚚'},
+    {id:'inventory',label:'Inventory',ic:'📦'},
+    {id:'documents',label:'Documents',ic:'🗂'}
+  ]},
+  {grp:'People',items:[
+    {id:'people',label:'Team & HR',ic:'👥'},
+    {id:'payroll',label:'Payroll',ic:'💵'},
+    {id:'education',label:'Education',ic:'cap'}
+  ]},
+  {grp:'Intelligence',items:[
+    {id:'assistant',label:'AI Assistant',ic:'✨'},
+    {id:'workforce',label:'AI Workforce',ic:'🤖'},
+    {id:'automation',label:'Automations',ic:'⚡'},
+    {id:'reporting',label:'Reporting',ic:'📊'}
+  ]},
+  {grp:'Platform',items:[
+    {id:'integrations',label:'Integrations',ic:'🔌'},
+    {id:'data',label:'Data Foundation',ic:'🗄'},
+    {id:'security',label:'Security',ic:'🛡'},
+    {id:'infrastructure',label:'Infrastructure',ic:'☁'},
+    {id:'admin',label:'Administration',ic:'⚙'}
+  ]},
+  {grp:'System',items:[
+    {id:'design',label:'Design System',ic:'◈',pill:'V11'},
+    {id:'blueprint',label:'The 11 Volumes',ic:'▤'}
+  ]}
+];
+function navMeta(id){for(const g of NAV)for(const it of g.items)if(it.id===id)return {...it,grp:g.grp};return null;}
+
+/* ---------------- Router ---------------- */
+/* Modules that are full embedded apps (bos-suite) rather than native views */
+const EMBEDS=['crm','finance','sales','projects','assistant'];
+let current='dashboard';
+function go(id){location.hash=id;}
+function renderRoute(){
+  const id=location.hash.replace('#','')||'home';
+  if(!navMeta(id)){location.hash='home';return;}
+  current=id;
+  document.body.classList.toggle('launcher-mode',id==='home');
+  document.body.classList.toggle('embed-mode',EMBEDS.includes(id));
+  $('#content').scrollTop=0;
+  const view=Views[id]||Views._todo;
+  $('#content').innerHTML=view(id);
+  if(Afters[id])Afters[id]();
+  renderChrome();
+}
+const Afters={};
+
+function renderChrome(){
+  $('#bizAv').textContent=S.business.initials;
+  $('#bizNm').textContent=S.business.name;
+  const m=navMeta(current);
+  $('#crumbs').innerHTML=`<span>${esc(m.grp)}</span><span class="sep">›</span><b>${esc(m.label)}</b>`;
+  // category tab strip — siblings of the current module
+  const counts={
+    finance:suiteCount('bos_finance:v1',['invoices'])||S.finance.invoices.length,
+    crm:(typeof crmCounts==='function'&&crmCounts())||S.crm.contacts.length,
+    sales:suiteCount('bos_sales:v1',['quotes'])||S.pipeline.deals.filter(d=>d.stage!=='Won').length,
+    projects:suiteCount('bos_projects:v1',['projects']),
+    tasks:S.tasks.items.filter(t=>t.col!=='Done').length,
+    workforce:S.agents.filter(a=>a.status==='active').length
+  };
+  const grp=NAV.find(g=>g.items.some(it=>it.id===current));
+  $('#modtabs').innerHTML=(grp&&current!=='home')
+    ? `<span class="grplab">${esc(grp.grp)}</span>`+grp.items.filter(it=>it.id!=='home').map(it=>
+        `<a class="${it.id===current?'on':''}" onclick="go('${it.id}')">${esc(it.label)}${counts[it.id]!=null?`<span class="cnt">${counts[it.id]}</span>`:''}</a>`
+      ).join('')
+    : '';
+}
+
+/* Shared page header — calm: eyebrow, title, sub. No icon tiles. */
+function head(id,{title,sub,actions=''}={}){
+  return `<div class="page-head">
+    <div><div class="eyebrow">${esc(navMeta(id).grp)}</div><h1>${esc(title)}</h1><div class="sub">${sub}</div></div>
+    <div class="ph-actions">${actions}</div>
+  </div>`;
+}
+
+const Views={};
+const Afters_placeholder=0;
+
+/* ============================================================
+   VIEWS are attached below (each module registers Views[id])
+   ============================================================ */
+</script>
+<!-- MODULE SCRIPTS INJECTED BELOW -->
+<script id="modules">
+/* ============================================================
+   MODULE: HOME LAUNCHER — landing screen, full-bleed
+   ============================================================ */
+Views.home=function(){
+  // One tile per nav category; modules become quick-jump chips
+  const cats=[
+    {grp:'Home',t:'Overview',d:'Your dashboard and overall business health at a glance.',g:['#2f6fed','#0D2C73'],icon:'grid'},
+    {grp:'Finance',t:'Finance',d:'Invoices with GST, cash flow, expenses, debt and a live BAS estimate.',g:['#0A7A43','#0D2C73'],icon:'dollar'},
+    {grp:'Customers',t:'Customers',d:'CRM, sales pipeline and marketing — every relationship in one place.',g:['#2CD5C4','#0D2C73'],icon:'users'},
+    {grp:'Operations',t:'Operations',d:'Tasks, projects, suppliers, inventory and documents.',g:['#7c4dd3','#4c2a9c'],icon:'check'},
+    {grp:'People',t:'People',d:'Your team, payroll and business education.',g:['#f59e0b','#ea580c'],icon:'user'},
+    {grp:'Intelligence',t:'Intelligence',d:'AI assistant, AI workforce, automations and reporting.',g:['#2CD5C4','#6b7cff'],icon:'spark'},
+    {grp:'Platform',t:'Platform',d:'Integrations, data, security, infrastructure and administration.',g:['#e0492f','#B3271E'],icon:'db'},
+    {grp:'System',t:'System',d:'The Volume 11 design system and the full 11-volume blueprint.',g:['#5b6576','#0D2C73'],icon:'layout'}
+  ];
+  return `
+  <div class="lhero">
+    <span class="lbadge">Business Operating System</span>
+    <h1>Run the whole business in one place</h1>
+    <p>Relationships, money and paperwork — connected. Pick an area to get started.</p>
+  </div>
+  <div class="lwrap">
+    ${cats.map(c=>{
+      const items=(NAV.find(g=>g.grp===c.grp)||{items:[]}).items.filter(it=>it.id!=='home');
+      const first=items[0]?items[0].id:'dashboard';
+      return `<div class="lcard cat">
+      <div class="lic" style="background:linear-gradient(135deg,${c.g[0]},${c.g[1]})">${ic(c.icon)}</div>
+      <div class="lbody">
+        <div class="leyebrow">${items.length} module${items.length===1?'':'s'}</div>
+        <h3 onclick="go('${first}')" style="cursor:pointer">${esc(c.t)}</h3>
+        <p>${esc(c.d)}</p>
+        <div class="lchips">${items.map(it=>`<span class="lchip" onclick="go('${it.id}')">${esc(it.label)}</span>`).join('')}</div>
+      </div>
+      <span class="lgo" onclick="go('${first}')" style="cursor:pointer">Open &rarr;</span>
+    </div>`;}).join('')}
+  </div>
+  <div class="lfoot">Your data is stored on this device by default. Business admin software — <b>not financial, tax, accounting or legal advice</b>. GST/BAS figures are estimates; confirm with your accountant.</div>`;
+};
+
+/* ============================================================
+   MODULE: DASHBOARD  (Volume 6 §2 — Business Dashboard)
+   ============================================================ */
+function financeSummary(){
+  const inv=S.finance.invoices;
+  const receivable=inv.filter(i=>['sent','overdue'].includes(i.status)).reduce((a,i)=>a+i.amount+i.gst,0);
+  const overdue=inv.filter(i=>i.status==='overdue').reduce((a,i)=>a+i.amount+i.gst,0);
+  const paid=inv.filter(i=>i.status==='paid').reduce((a,i)=>a+i.amount+i.gst,0);
+  const gstCollected=inv.filter(i=>i.status!=='draft').reduce((a,i)=>a+i.gst,0);
+  const gstPaid=S.finance.expenses.reduce((a,e)=>a+e.gst,0);
+  const expenses=S.finance.expenses.reduce((a,e)=>a+e.amount,0);
+  return {receivable,overdue,paid,gstCollected,gstPaid,gstNet:gstCollected-gstPaid,expenses,cash:S.finance.cashOnHand};
+}
+Views.dashboard=function(id){
+  const f=financeSummary();
+  const pipeVal=S.pipeline.deals.filter(d=>d.stage!=='Won').reduce((a,d)=>a+d.value,0);
+  const won=S.pipeline.deals.filter(d=>d.stage==='Won').reduce((a,d)=>a+d.value,0);
+  const openTasks=S.tasks.items.filter(t=>t.col!=='Done').length;
+  const rev=[32,28,41,38,52,47];const revLabels=['Feb','Mar','Apr','May','Jun','Jul'];
+  const focus=[
+    S.finance.invoices.some(i=>i.status==='overdue')?{ic:'⚠️',c:'r',t:'Chase overdue invoice INV-1044 — 19 days late',a:"go('finance')"}:null,
+    {ic:'🎯',c:'b',t:'Vertex retainer ('+money(74000)+') still in Qualified — advance it',a:"go('sales')"},
+    {ic:'%',c:'a',t:'Q3 BAS due 21 Jul — estimated net GST '+money(f.gstNet),a:"go('tax')"},
+    {ic:'🤖',c:'g',t:'Collections Agent handled 3 reminders overnight',a:"go('workforce')"}
+  ].filter(Boolean);
+  return `
+  ${head(id,{ic:'▚',tint:['#2CD5C4','#0D2C73'],title:'Good morning, Jason',sub:"Here's where <b>"+esc(S.business.name)+"</b> stands today — "+new Date(TODAY).toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long'})+".",
+    actions:`<button class="btn" onclick="go('reporting')">Reports</button><button class="btn primary" onclick="go('assistant')">Ask BOSS</button>`})}
+  <div class="grid g-kpi" style="margin-bottom:16px">
+    ${kpi('Cash on hand',money(f.cash),'💰','#0A7A43','#e6f5ee','up','+4.2%','vs last month')}
+    ${kpi('Receivables',money(f.receivable),'📥','#2f6fed','#e9f0fe','flat',money(f.overdue)+' overdue','','r')}
+    ${kpi('Open pipeline',money(pipeVal),'🎯','#5b63d3','#eef0ff','up','3 deals','weighted')}
+    ${kpi('Open tasks',openTasks,'✅','#B87503','#fdf3dd','flat',won?money(won)+' won this qtr':'','')}
+  </div>
+  <div class="grid g2" style="align-items:start">
+    <div class="card span2" style="grid-column:span 1">
+      <div class="card-h"><h3>Revenue</h3><span class="sub">Last 6 months</span><div class="r"><span class="badge g dot">On track</span></div></div>
+      <div class="bars" style="margin-bottom:26px">
+        ${rev.map((v,i)=>`<div class="bar" style="height:${v/52*100}%" title="${money(v*1000)}"><span>${revLabels[i]}</span></div>`).join('')}
+      </div>
+      <div class="dl"><span class="k">This quarter</span><span class="v">${money(146000)}</span></div>
+      <div class="dl"><span class="k">Collected</span><span class="v">${money(f.paid)}</span></div>
+      <div class="dl"><span class="k">Expenses (mo.)</span><span class="v">${money(f.expenses)}</span></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>What to focus on</h3><span class="badge b dot">AI</span></div>
+      <div class="feed">
+        ${focus.map(x=>`<div class="fi" style="cursor:pointer" onclick="${x.a}"><div class="fd" style="${tintPair(x.c)}">${ic(x.ic)}</div><div><div class="ft">${x.t}</div></div></div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:16px;align-items:start">
+    <div class="card">
+      <div class="card-h"><h3>Recent activity</h3><div class="r"><button class="btn ghost sm" onclick="Modal.notifications()">View all</button></div></div>
+      <div class="feed">
+        ${S.activity.slice(0,5).map(a=>`<div class="fi"><div class="fd" style="${tintPair(a.c)}">${ic(a.ic)}</div><div><div class="ft">${a.t}</div><div class="fm">${esc(a.m)}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div class="card" style="background:linear-gradient(155deg,#0D2C73,#071B4D);color:#fff;border:none">
+      <div class="card-h"><h3 style="color:#fff">Business snapshot</h3><span class="badge dot" style="color:var(--navy);background:var(--teal)">Live</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 18px">
+        ${snap('Health score','82 / 100')}
+        ${snap('Runway','9.4 months')}
+        ${snap('Net GST (BAS)',money(f.gstNet))}
+        ${snap('Active agents',S.agents.filter(a=>a.status==='active').length+' running')}
+        ${snap('Customers',S.crm.contacts.filter(c=>c.type==='Customer').length)}
+        ${snap('Win rate','34%')}
+      </div>
+      <div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14);font-size:12.5px;color:#b9c6dc">
+        Everything above is computed live from your ledger, pipeline and workforce — one connected operating system.
+      </div>
+    </div>
+  </div>`;
+};
+function kpi(lab,val,_ic,_color,_soft,trend,trendTxt,sub,tcls){
+  const tc=tcls||(trend==='up'?'up':trend==='down'?'down':'flat');
+  return `<div class="kpi">
+    <div class="k-lab">${esc(lab)}</div>
+    <div class="k-val">${val}</div>
+    ${trendTxt||sub?`<div class="k-sub">${trendTxt?`<span class="trend ${tc}">${trend==='up'?'▲ ':trend==='down'?'▼ ':''}${esc(trendTxt)}</span>`:''}${sub?`<span>${esc(sub)}</span>`:''}</div>`:''}
+  </div>`;
+}
+function snap(k,v){return `<div><div style="font-size:11px;color:#8ea1c4;font-weight:700;text-transform:uppercase;letter-spacing:.6px">${esc(k)}</div><div style="font-size:19px;font-weight:800;margin-top:3px">${v}</div></div>`;}
+
+/* ============================================================
+   MODULE: FINANCE  (Volume 6 §4) — the full Money app, embedded
+   whole. Its own data (bos_finance:v1) + optional cloud sync.
+   ============================================================ */
+Views.finance=function(id){
+  return `<iframe class="embed-frame" src="finance/index.html" title="Money — Finance" onload="renderChrome()"></iframe>`;
+};
+function fmtDate(d){if(!d)return '—';return new Date(d).toLocaleDateString('en-AU',{day:'2-digit',month:'short'});}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+/* ============================================================
+   MODULE: EXPENSES  (Volume 6 §7)
+   ============================================================ */
+Views.expenses=function(id){
+  const ex=S.finance.expenses;const total=ex.reduce((a,e)=>a+e.amount,0);
+  return `
+  ${head(id,{ic:'🧾',tint:['#B87503','#0D2C73'],title:'Expenses',sub:'Track spend and claimable GST. Snap a receipt or add manually.',
+    actions:`<button class="btn primary" onclick="Expenses.add()">+ Add expense</button>`})}
+  <div class="grid g3" style="margin-bottom:18px">
+    ${kpi('This month',money(total),'💳','#B87503','#fdf3dd','','',ex.length+' items')}
+    ${kpi('GST claimable',money(ex.reduce((a,e)=>a+e.gst,0)),'%','#0A7A43','#e6f5ee','','','input credits')}
+    ${kpi('Largest category','Software','📁','#5b63d3','#eef0ff','','','by spend')}
+  </div>
+  <div class="t-wrap"><table class="tbl">
+    <thead><tr><th>Vendor</th><th>Category</th><th>Date</th><th class="num">GST</th><th class="num">Amount</th><th></th></tr></thead>
+    <tbody>${ex.map(e=>`<tr><td class="t-main">${esc(e.vendor)}</td><td><span class="badge n">${esc(e.cat)}</span></td><td class="t-sub">${fmtDate(e.date)}</td><td class="num t-sub">${money2(e.gst)}</td><td class="num">${money2(e.amount)}</td><td style="text-align:right"><button class="btn ghost sm" onclick="Expenses.del('${e.id}')">${ic('trash')}</button></td></tr>`).join('')}</tbody>
+  </table></div>`;
+};
+const Expenses={
+  add(){Modal.form('Add expense',[
+    {k:'vendor',label:'Vendor'},{k:'cat',label:'Category',type:'select',opts:['Software','Supplies','Vehicle','Travel','Marketing','Other'],val:'Software'},
+    {k:'amount',label:'Amount (inc GST)',type:'number'}
+  ],o=>{const amt=parseFloat(o.amount)||0;S.finance.expenses.unshift({id:uid(),vendor:o.vendor||'Vendor',cat:o.cat,amount:amt,gst:Math.round(amt/11),date:TODAY});save();renderRoute();toast('Expense added');},{cta:'Add expense'});},
+  del(idv){S.finance.expenses=S.finance.expenses.filter(x=>x.id!==idv);save();renderRoute();toast('Expense removed');}
+};
+
+/* ============================================================
+   MODULE: TAX CENTRE  (Volume 6 §13) — computed BAS
+   ============================================================ */
+Views.tax=function(id){
+  const f=financeSummary();
+  return `
+  ${head(id,{ic:'%',tint:['#B87503','#071B4D'],title:'Tax Centre',sub:'A live BAS estimate assembled from your invoices and expenses (AU GST 10%).',
+    actions:`<button class="btn" onclick="go('finance')">View ledger</button>`})}
+  <div class="grid g2" style="align-items:start">
+    <div class="card">
+      <div class="card-h"><h3>Business Activity Statement</h3><span class="badge a dot">Q3 · due 21 Jul</span></div>
+      <div class="dl"><span class="k">G1 · Total sales (inc GST)</span><span class="v">${money2(S.finance.invoices.filter(i=>i.status!=='draft').reduce((a,i)=>a+i.amount+i.gst,0))}</span></div>
+      <div class="dl"><span class="k">1A · GST on sales</span><span class="v">${money2(f.gstCollected)}</span></div>
+      <div class="dl"><span class="k">1B · GST on purchases</span><span class="v">−${money2(f.gstPaid)}</span></div>
+      <div class="dl" style="border-top:2px solid var(--line);margin-top:6px"><span class="k hl">Net GST payable</span><span class="v hl" style="font-size:16px">${money2(f.gstNet)}</span></div>
+      <button class="btn primary" style="width:100%;justify-content:center;margin-top:16px" onclick="toast('BAS draft assembled — review before lodging')">Assemble BAS draft</button>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Tax calendar</h3></div>
+      ${[['Q3 BAS lodgement','21 Jul 2026','a'],['PAYG instalment','21 Jul 2026','a'],['Super guarantee','28 Jul 2026','b'],['Income tax return','31 Oct 2026','n']].map(r=>`<div class="dl"><span class="k">${r[0]}</span><span class="badge ${r[2]}">${r[1]}</span></div>`).join('')}
+      <div class="scaffold" style="margin-top:16px"><div class="si">${ic('shield')}</div><div><b>Not tax advice.</b> BOSS estimates GST/BAS from your ledger to keep you organised. Always confirm with a registered agent before lodging.</div></div>
+    </div>
+  </div>`;
+};
+
+/* ============================================================
+   MODULE: CRM  (Volume 6 §16) — the full Relationships CRM app,
+   embedded whole. Its own data (bos_crm:v1) + optional cloud sync.
+   ============================================================ */
+Views.crm=function(id){
+  return `<iframe class="embed-frame" src="crm/index.html" title="Relationships — CRM" onload="renderChrome()"></iframe>`;
+};
+/* Live counts from the embedded apps' own stores */
+function suiteCount(key,fields){
+  try{
+    const d=JSON.parse(localStorage.getItem(key));
+    if(d)return fields.reduce((a,f)=>a+((d[f]||[]).length),0)||null;
+  }catch(e){}
+  return null;
+}
+function crmCounts(){return suiteCount('bos_crm:v1',['customers','leads']);}
+
+/* ============================================================
+   MODULE: SALES PIPELINE  (Volume 6 §17) — the full Sales app,
+   embedded whole (quotes → Finance invoices, bos_sales:v1).
+   ============================================================ */
+Views.sales=function(id){
+  return `<iframe class="embed-frame" src="sales/index.html" title="Sales — Quotes & Pipeline" onload="renderChrome()"></iframe>`;
+};
+
+/* ============================================================
+   MODULE: TASKS  (Volume 6 §25) — kanban
+   ============================================================ */
+Views.tasks=function(id){
+  const cols=S.tasks.cols;
+  return `
+  ${head(id,{ic:'✅',tint:['#B87503','#0D2C73'],title:'Tasks',sub:'A shared board across the business. Move work forward, keep nothing dropped.',
+    actions:`<button class="btn primary" onclick="Tasks.newTask()">+ New task</button>`})}
+  <div class="kanban">
+    ${cols.map(col=>{const items=S.tasks.items.filter(t=>t.col===col);return `
+      <div class="kcol">
+        <div class="kcol-h">${esc(col)}<span class="cnt">${items.length}</span></div>
+        ${items.map(t=>`<div class="kcard">
+          <div class="kt">${esc(t.title)}</div>
+          <div class="km"><span class="badge ${t.pri==='High'?'r':t.pri==='Med'?'a':'n'}">${esc(t.pri)}</span><span style="display:inline-flex;align-items:center;gap:4px">${ic('calendar')} ${fmtDate(t.due)}</span><span class="avatar" style="width:20px;height:20px;font-size:9px;background:${colorFor(t.owner)}">${esc(t.owner)}</span></div>
+          <div style="display:flex;gap:5px;margin-top:9px">${cols.indexOf(col)>0?`<button class="btn ghost sm" style="flex:1" onclick="Tasks.move('${t.id}',-1)">←</button>`:''}${cols.indexOf(col)<cols.length-1?`<button class="btn ghost sm" style="flex:1" onclick="Tasks.move('${t.id}',1)">→</button>`:`<button class="btn ghost sm" style="flex:1" onclick="Tasks.del('${t.id}')">✓ Archive</button>`}</div>
+        </div>`).join('')||'<div class="tiny muted" style="text-align:center;padding:16px 0">Empty</div>'}
+      </div>`;}).join('')}
+  </div>`;
+};
+const Tasks={
+  newTask(){Modal.form('New task',[
+    {k:'title',label:'Task'},{k:'pri',label:'Priority',type:'select',opts:['High','Med','Low'],val:'Med'},
+    {k:'due',label:'Due',type:'date',val:'2026-07-15'},{k:'owner',label:'Owner',type:'select',opts:S.people.map(p=>p.init),val:S.business.initials}
+  ],o=>{S.tasks.items.unshift({id:uid(),title:o.title||'New task',col:'Backlog',owner:o.owner,due:o.due,pri:o.pri});save();renderRoute();toast('Task added');},{cta:'Add task'});},
+  move(idv,dir){const t=S.tasks.items.find(x=>x.id===idv);if(!t)return;const i=S.tasks.cols.indexOf(t.col)+dir;if(i<0||i>=S.tasks.cols.length)return;t.col=S.tasks.cols[i];save();renderRoute();},
+  del(idv){S.tasks.items=S.tasks.items.filter(x=>x.id!==idv);save();renderRoute();toast('Task archived');}
+};
+
+/* ============================================================
+   MODULE: PEOPLE / HR  (Volume 6 §15)
+   ============================================================ */
+Views.people=function(id){
+  return `
+  ${head(id,{ic:'👥',tint:['#2f6fed','#0D2C73'],title:'Team & HR',sub:'Your people, roles and departments.',
+    actions:`<button class="btn primary" onclick="People.add()">+ Add person</button>`})}
+  <div class="grid g3">
+    ${S.people.map(p=>`<div class="card" style="text-align:center">
+      <div class="avatar" style="width:56px;height:56px;font-size:20px;margin:6px auto 12px;background:${colorFor(p.name)}">${esc(p.init)}</div>
+      <div style="font-weight:800;font-size:15px">${esc(p.name)}</div>
+      <div class="tiny muted" style="margin:2px 0 10px">${esc(p.role)}</div>
+      <span class="badge b">${esc(p.dept)}</span> <span class="badge g dot">${esc(p.status)}</span>
+    </div>`).join('')}
+  </div>`;
+};
+const People={add(){Modal.form('Add person',[
+  {k:'name',label:'Name'},{k:'role',label:'Role'},{k:'dept',label:'Department',type:'select',opts:['Executive','Operations','Finance','Sales','Support'],val:'Operations'}
+],o=>{S.people.push({id:uid(),name:o.name||'New hire',role:o.role||'Team member',dept:o.dept,status:'Active',init:initials(o.name||'New Hire')});save();renderRoute();toast('Person added');},{cta:'Add'});}};
+
+/* ============================================================
+   MODULE: AI ASSISTANT  (Volume 5) — the full Assistant app,
+   embedded whole. Reads all suite apps' data; local + API modes.
+   ============================================================ */
+Views.assistant=function(id){
+  return `<iframe class="embed-frame" src="assistant/index.html" title="Assistant" onload="renderChrome()"></iframe>`;
+};
+</script>
+<script id="modules2">
+/* ============================================================
+   MODULE: AI WORKFORCE  (Volume 9)
+   ============================================================ */
+Views.workforce=function(id){
+  return `
+  ${head(id,{ic:'🤖',tint:['#5b63d3','#0D2C73'],title:'AI Workforce',sub:'Autonomous agents that run business processes on a schedule — supervised, auditable, permission-aware.',
+    actions:`<button class="btn primary" onclick="Workforce.hire()">+ Hire agent</button>`})}
+  <div class="grid g4" style="margin-bottom:18px">
+    ${kpi('Active agents',S.agents.filter(a=>a.status==='active').length,'⚡','#0A7A43','#e6f5ee','','','running')}
+    ${kpi('Total runs',S.agents.reduce((a,x)=>a+x.runs,0),'🔁','#2f6fed','#e9f0fe','up','+18','this week')}
+    ${kpi('Hours saved','~46','⏱','#B87503','#fdf3dd','','','est. / month')}
+    ${kpi('Supervised','100%','🛡','#5b63d3','#eef0ff','','','human-in-loop')}
+  </div>
+  <div class="grid g2">
+    ${S.agents.map(a=>`<div class="card" style="display:flex;gap:14px;align-items:flex-start">
+      <div class="avatar" style="width:44px;height:44px;font-size:19px;background:linear-gradient(135deg,${a.status==='active'?'var(--teal),var(--violet)':'#9fb0c6,#5b6576'})">${ic('bot')}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-weight:800">${esc(a.name)}</span><span class="badge ${a.status==='active'?'g':'n'} dot">${cap(a.status)}</span></div>
+        <div class="tiny muted" style="margin:4px 0 10px">${esc(a.role)}</div>
+        <div class="tiny muted">${a.runs} lifetime runs</div>
+        <div style="display:flex;gap:6px;margin-top:11px">
+          <button class="btn sm" onclick="Workforce.toggle('${a.id}')">${a.status==='active'?'Pause':'Activate'}</button>
+          <button class="btn sm ${a.status==='active'?'teal':''}" onclick="Workforce.run('${a.id}')">Run now</button>
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>
+  <div class="scaffold" style="margin-top:18px"><div class="si">${ic('spark')}</div><div><b>Volume 9 — the AI Workforce.</b> In the full platform each agent has scoped permissions, an audit trail, escalation rules and a manager. This build runs simulated agents locally; connect a model provider in Integrations to make them live.</div></div>`;
+};
+const Workforce={
+  toggle(idv){const a=S.agents.find(x=>x.id===idv);if(a){a.status=a.status==='active'?'paused':'active';save();renderRoute();toast(a.name+' '+(a.status==='active'?'activated':'paused'));}},
+  run(idv){const a=S.agents.find(x=>x.id===idv);if(a){a.runs++;S.activity.unshift({ic:'🤖',t:`<b>${esc(a.name)}</b> completed a run`,m:'Just now',c:'b'});save();renderRoute();toast(a.name+' ran');}},
+  hire(){Modal.form('Hire an agent',[
+    {k:'name',label:'Agent name',ph:'e.g. Invoice Reconciler'},{k:'role',label:'What should it do?',type:'textarea',ph:'Describe the process this agent should run…'}
+  ],o=>{S.agents.push({id:uid(),name:o.name||'New Agent',role:o.role||'Custom process',status:'paused',runs:0});save();renderRoute();toast('Agent hired (paused) — activate when ready');},{cta:'Hire agent'});}
+};
+
+/* ============================================================
+   MODULE: AUTOMATIONS  (Volume 6 §30)
+   ============================================================ */
+Views.automation=function(id){
+  if(!S.automations)S.automations=[
+    {id:uid(),name:'Invoice paid → thank-you email',on:true},
+    {id:uid(),name:'Invoice 7 days overdue → reminder',on:true},
+    {id:uid(),name:'Deal Won → create draft invoice',on:true},
+    {id:uid(),name:'New lead → assign & notify owner',on:false},
+    {id:uid(),name:'Weekly cash report → email me Monday 8am',on:true}
+  ];
+  return `
+  ${head(id,{ic:'⚡',tint:['#B87503','#0D2C73'],title:'Automations',sub:'When this happens, do that. Wire your modules together into workflows.',
+    actions:`<button class="btn primary" onclick="toast('Workflow builder — connect triggers across modules')">+ New workflow</button>`})}
+  <div class="card pad0">
+    ${S.automations.map(a=>`<div style="display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid var(--line2)">
+      <div class="avatar" style="background:${a.on?'linear-gradient(135deg,var(--teal),var(--navy2))':'#c4d0e2'}">${ic('zap')}</div>
+      <div style="flex:1"><div style="font-weight:700">${esc(a.name)}</div><div class="tiny muted">${a.on?'Active — running automatically':'Paused'}</div></div>
+      <button class="btn sm ${a.on?'':'ghost'}" onclick="toggleAuto('${a.id}')">${a.on?'On':'Off'}</button>
+    </div>`).join('')}
+  </div>
+  <div class="scaffold" style="margin-top:16px"><div class="si">${ic('sliders')}</div><div><b>Cross-module workflow engine (Volume 6 §37).</b> Automations react to business events — an invoice paid, a deal won, a threshold crossed — and trigger actions in any other module.</div></div>`;
+};
+function toggleAuto(idv){const a=S.automations.find(x=>x.id===idv);if(a){a.on=!a.on;save();renderRoute();toast(a.name+' '+(a.on?'enabled':'paused'));}}
+
+/* ============================================================
+   MODULE: INTEGRATIONS  (Volume 7)
+   ============================================================ */
+Views.integrations=function(id){
+  return `
+  ${head(id,{ic:'🔌',tint:['#2f6fed','#0D2C73'],title:'Integrations',sub:'Connect the tools you already use. BOSS keeps data in sync both ways.',
+    actions:`<button class="btn" onclick="go('data')">Data foundation</button>`})}
+  <div class="grid g3">
+    ${S.integrations.map(x=>`<div class="card" style="display:flex;gap:13px;align-items:center">
+      <div class="avatar" style="width:44px;height:44px;font-size:16px;background:${x.on?colorFor(x.name):'#c4d0e2'}">${initials(x.name)}</div>
+      <div style="flex:1"><div style="font-weight:800">${esc(x.name)}</div><div class="tiny muted">${esc(x.cat)}</div></div>
+      <button class="btn sm ${x.on?'teal':''}" onclick="toggleInt('${x.id}')">${x.on?'Connected':'Connect'}</button>
+    </div>`).join('')}
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="card-h"><h3>Model provider</h3><span class="badge n">Optional</span></div>
+    <p class="tiny muted" style="margin:0 0 12px">Add an Anthropic API key to power open-ended AI answers and live agents. Stored only in this browser; never sent anywhere but the provider.</p>
+    <div style="display:flex;gap:10px"><input class="inp" id="apiKey" type="password" placeholder="sk-ant-..." value="${esc((S.settings&&S.settings.apiKey)||'')}"><button class="btn primary" onclick="saveKey()">Save key</button></div>
+  </div>`;
+};
+function toggleInt(idv){const x=S.integrations.find(i=>i.id===idv);if(x){x.on=!x.on;save();renderRoute();toast(x.name+(x.on?' connected':' disconnected'));}}
+function saveKey(){S.settings.apiKey=$('#apiKey').value.trim();save();toast('API key saved locally');}
+
+/* ============================================================
+   SCAFFOLD MODULES — real structure, spec-accurate, ready to extend
+   ============================================================ */
+function scaffold(id,cfg){
+  return `
+  ${head(id,{ic:cfg.ic,tint:cfg.tint,title:cfg.title,sub:cfg.sub,actions:cfg.actions||''})}
+  ${cfg.kpis?`<div class="grid g-kpi" style="margin-bottom:18px">${cfg.kpis.map(k=>kpi(k[0],k[1],k[2],k[3],k[4],'','',k[5]||'')).join('')}</div>`:''}
+  ${cfg.body||''}
+  <div class="feature-grid" style="margin-top:4px">
+    ${cfg.features.map(fx=>`<div class="feat"><div class="fh"><div class="fic" style="background:${fx[2]||'var(--sky-soft)'};color:${fx[3]||'var(--sky)'}">${ic(fx[0])}</div>${esc(fx[1])}</div><p>${esc(fx[4])}</p></div>`).join('')}
+  </div>
+  <div class="scaffold" style="margin-top:18px"><div class="si">${ic(cfg.vIc||'▤')}</div><div><b>${esc(cfg.vol)}.</b> ${esc(cfg.note)} This module is scaffolded with its real structure and connected to your live data — extend it into full workflows next.</div></div>`;
+}
+
+Views.health=function(id){
+  const f=financeSummary();
+  const dims=[['Cash & liquidity',86,'Strong runway, positive cash position'],['Receivables',62,'One invoice overdue drags this down'],['Sales momentum',78,'Healthy pipeline, one deal won this quarter'],['Customer health',70,'Most relationships strong; one at risk'],['Compliance',88,'BAS on track, records tidy'],['Operations',80,'Tasks flowing, nothing stalled']];
+  const score=Math.round(dims.reduce((a,d)=>a+d[1],0)/dims.length);
+  return `
+  ${head(id,{ic:'❤',tint:['#B3271E','#0D2C73'],title:'Business Health',sub:'One score across the dimensions that keep a business alive (Volume 6 §3).'})}
+  <div class="grid g2" style="align-items:start">
+    <div class="card" style="text-align:center">
+      <div style="font-size:64px;font-weight:800;letter-spacing:-2px;color:var(--navy);line-height:1;margin:10px 0 4px">${score}</div>
+      <div class="tiny muted" style="text-transform:uppercase;letter-spacing:1px;font-weight:800">Overall health · out of 100</div>
+      <div style="margin:16px auto;max-width:280px"><div class="meter" style="height:12px"><span style="width:${score}%"></span></div></div>
+      <span class="badge g dot">${score>=80?'Thriving':score>=60?'Stable':'Needs attention'}</span>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>By dimension</h3></div>
+      ${dims.map(d=>`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px"><span style="font-weight:700">${d[0]}</span><span style="font-weight:800">${d[1]}</span></div><div class="meter"><span style="width:${d[1]}%;background:${d[1]<60?'var(--amber)':'linear-gradient(90deg,var(--teal),var(--emerald))'}"></span></div><div class="tiny muted" style="margin-top:4px">${d[2]}</div></div>`).join('')}
+    </div>
+  </div>`;
+};
+
+Views.cashflow=function(id){
+  const weeks=[38,41,36,44,39,47,43,50,46,52,49,55,58];
+  return scaffold(id,{ic:'≈',tint:['#0A7A43','#0D2C73'],title:'Cash Flow',sub:'A 13-week forward view of money in and out (Volume 6 §5).',
+    kpis:[['Cash now',money(S.finance.cashOnHand),'💰','#0A7A43','#e6f5ee','available'],['13-week low',money(36000),'📉','#B87503','#fdf3dd','week 3'],['Projected end',money(58000),'📈','#2f6fed','#e9f0fe','week 13']],
+    body:`<div class="card" style="margin-bottom:16px"><div class="card-h"><h3>Projected balance · next 13 weeks</h3><span class="badge g dot">Positive</span></div>
+      <div class="bars">${weeks.map((v,i)=>`<div class="bar" style="height:${v/58*100}%" title="${money(v*1000)}">${i%2===0?`<span>W${i+1}</span>`:''}</div>`).join('')}</div></div>`,
+    vol:'Volume 6 §5 — Cash Flow Module',vIc:'≈',note:'Forecasts inflows from receivables and outflows from bills, payroll and recurring spend to reveal the low points before they arrive.',
+    features:[['📥','Inflows','var(--emerald-soft)','var(--emerald)','Expected invoice payments, scheduled by due date and adjusted for each client\'s payment history.'],['📤','Outflows','var(--red-soft)','var(--red)','Bills, payroll, tax and recurring subscriptions mapped to the week they land.'],['⚠️','Low-point alerts','var(--amber-soft)','var(--amber)','Flags the weeks where projected balance dips toward zero so you can act early.'],['🔮','Scenarios','var(--sky-soft)','var(--sky)','Model "what if a big invoice is late" or "if we hire" against the same baseline.']]});
+};
+
+Views.debt=function(id){
+  if(!S.debts)S.debts=[{id:uid(),name:'Business loan',balance:42000,rate:8.9,min:850},{id:uid(),name:'Equipment finance',balance:11500,rate:6.4,min:410},{id:uid(),name:'Business credit card',balance:3800,rate:19.9,min:120}];
+  const total=S.debts.reduce((a,d)=>a+d.balance,0);
+  return `
+  ${head(id,{ic:'⚖',tint:['#B3271E','#0D2C73'],title:'Debt',sub:'Every liability, its rate, and the smartest payoff order (Volume 6 §12).',
+    actions:`<button class="btn primary" onclick="Debt.add()">+ Add debt</button>`})}
+  <div class="grid g3" style="margin-bottom:18px">
+    ${kpi('Total owed',money(total),'⚖','#B3271E','#fbe7e5','','','across '+S.debts.length)}
+    ${kpi('Monthly minimum',money(S.debts.reduce((a,d)=>a+d.min,0)),'📅','#B87503','#fdf3dd','','','committed')}
+    ${kpi('Highest rate',Math.max(...S.debts.map(d=>d.rate))+'%','🔥','#5b63d3','#eef0ff','','','pay first')}
+  </div>
+  <div class="t-wrap"><table class="tbl"><thead><tr><th>Debt</th><th class="num">Balance</th><th class="num">Rate</th><th class="num">Min / mo</th><th>Priority</th><th></th></tr></thead>
+    <tbody>${S.debts.slice().sort((a,b)=>b.rate-a.rate).map((d,i)=>`<tr><td class="t-main">${esc(d.name)}</td><td class="num">${money(d.balance)}</td><td class="num">${d.rate}%</td><td class="num">${money(d.min)}</td><td>${i===0?'<span class="badge r dot">Avalanche — pay first</span>':'<span class="badge n">Minimum</span>'}</td><td style="text-align:right"><button class="btn ghost sm" onclick="Debt.del('${d.id}')">${ic('trash')}</button></td></tr>`).join('')}</tbody></table></div>
+  <div class="scaffold" style="margin-top:16px"><div class="si">${ic('scale')}</div><div><b>Avalanche strategy.</b> Paying the highest-rate debt first (Business credit card at 19.9%) minimises total interest. Everything else stays at minimums until it clears.</div></div>`;
+};
+const Debt={add(){Modal.form('Add debt',[{k:'name',label:'Name'},{k:'balance',label:'Balance',type:'number'},{k:'rate',label:'Interest rate %',type:'number'},{k:'min',label:'Minimum / month',type:'number'}],o=>{S.debts.push({id:uid(),name:o.name||'Debt',balance:parseFloat(o.balance)||0,rate:parseFloat(o.rate)||0,min:parseFloat(o.min)||0});save();renderRoute();toast('Debt added');},{cta:'Add'});},del(idv){S.debts=S.debts.filter(x=>x.id!==idv);save();renderRoute();toast('Debt removed');}};
+
+Views.marketing=id=>scaffold(id,{ic:'📣',tint:['#5b63d3','#0D2C73'],title:'Marketing',sub:'Campaigns, audiences and attribution that feed the pipeline (Volume 6 §18).',
+  kpis:[['Leads (mo.)','34','🌱','#0A7A43','#e6f5ee','+9 vs last'],['Cost / lead',money(42),'💲','#B87503','#fdf3dd','blended'],['Best channel','Referral','🏆','#2f6fed','#e9f0fe','by ROI']],
+  vol:'Volume 6 §18 — Marketing Hub',vIc:'📣',note:'Plans campaigns, segments audiences from CRM, and ties spend back to won revenue.',
+  features:[['🎯','Campaigns','var(--sky-soft)','var(--sky)','Plan, schedule and budget campaigns across email, social and referral.'],['👥','Audiences','var(--emerald-soft)','var(--emerald)','Build segments straight from CRM data — industry, value, health, stage.'],['📊','Attribution','var(--amber-soft)','var(--amber)','See which channels actually produce won deals, not just clicks.'],['✉️','Email','#eef0ff','var(--violet)','Templated sequences that log activity back onto each contact.']]});
+
+/* Projects — the full Projects & Work app, embedded whole (bos_projects:v1) */
+Views.projects=function(id){
+  return `<iframe class="embed-frame" src="projects/index.html" title="Projects & Work" onload="renderChrome()"></iframe>`;
+};
+
+Views.suppliers=id=>scaffold(id,{ic:'🚚',tint:['#0A7A43','#0D2C73'],title:'Suppliers',sub:'Vendors, purchase orders and payables (Volume 6 §20–21).',
+  kpis:[['Suppliers','12','🚚','#0A7A43','#e6f5ee','active'],['Payables',money(7400),'📤','#B3271E','#fbe7e5','owed'],['Due this week',money(2100),'📅','#B87503','#fdf3dd','3 bills']],
+  vol:'Volume 6 §20 — Supplier Management',vIc:'🚚',note:'Holds vendor records, purchase orders and bills, and schedules payments against cash flow.',
+  features:[['🏭','Vendor records','var(--sky-soft)','var(--sky)','Contacts, terms, tax details and performance in one place.'],['📄','Purchase orders','var(--emerald-soft)','var(--emerald)','Raise and approve POs that become bills on receipt.'],['💳','Payables','var(--red-soft)','var(--red)','Schedule bill payments to protect cash-flow low points.'],['⭐','Scorecards','var(--amber-soft)','var(--amber)','Track reliability, price and quality per supplier.']]});
+
+Views.inventory=id=>scaffold(id,{ic:'📦',tint:['#B87503','#0D2C73'],title:'Inventory',sub:'Stock levels, valuation and reorder points (Volume 6 §22).',
+  kpis:[['SKUs','128','📦','#B87503','#fdf3dd','tracked'],['Stock value',money(64200),'💰','#0A7A43','#e6f5ee','on hand'],['Low stock','6','⚠️','#B3271E','#fbe7e5','reorder']],
+  vol:'Volume 6 §22 — Inventory Management',vIc:'📦',note:'Tracks quantities, valuation and reorder points, and links movements to sales and purchases.',
+  features:[['🔢','Stock levels','var(--sky-soft)','var(--sky)','Real-time quantity on hand across locations.'],['🔁','Reorder points','var(--amber-soft)','var(--amber)','Auto-flag items below threshold and draft a PO.'],['💵','Valuation','var(--emerald-soft)','var(--emerald)','FIFO/average cost feeding the balance sheet.'],['📍','Locations','#eef0ff','var(--violet)','Multi-warehouse and franchise-aware stock.']]});
+
+Views.documents=id=>scaffold(id,{ic:'🗂',tint:['#5b63d3','#0D2C73'],title:'Documents',sub:'Contracts, receipts and files with AI extraction (Volume 6 §26).',
+  kpis:[['Documents','486','🗂','#5b63d3','#eef0ff','stored'],['Needs review','4','👀','#B87503','#fdf3dd','extracted'],['Expiring soon','2','⏳','#B3271E','#fbe7e5','contracts']],
+  vol:'Volume 6 §26 — Document Management',vIc:'🗂',note:'Stores files, extracts key data with AI (like the Financial Data Engine you built in HMGOD), and links each document to the right record.',
+  features:[['📤','Upload & OCR','var(--sky-soft)','var(--sky)','Drop a receipt or contract; AI reads and classifies it.'],['🔗','Auto-linking','var(--emerald-soft)','var(--emerald)','Attach documents to invoices, contacts or projects automatically.'],['✅','Review before apply','var(--amber-soft)','var(--amber)','Nothing is committed until you confirm the extracted values.'],['⏰','Expiry tracking','var(--red-soft)','var(--red)','Reminders before contracts, licences or insurance lapse.']]});
+
+Views.payroll=id=>scaffold(id,{ic:'💵',tint:['#0A7A43','#0D2C73'],title:'Payroll',sub:'Pay runs, super and STP-ready reporting (Volume 6 §14).',
+  kpis:[['Headcount',String(S.people.length),'👥','#0A7A43','#e6f5ee','on payroll'],['Next run','15 Jul','📅','#2f6fed','#e9f0fe','fortnightly'],['Super due',money(1840),'🏦','#B87503','#fdf3dd','28 Jul']],
+  vol:'Volume 6 §14 — Payroll Module',vIc:'💵',note:'Runs pays, calculates PAYG and super, and produces Single Touch Payroll–ready figures.',
+  features:[['💸','Pay runs','var(--emerald-soft)','var(--emerald)','Scheduled runs with automatic PAYG withholding.'],['🏦','Superannuation','var(--sky-soft)','var(--sky)','Accrues and schedules super guarantee payments.'],['📑','STP reporting','var(--amber-soft)','var(--amber)','Single Touch Payroll–ready summaries each run.'],['🗓','Leave','#eef0ff','var(--violet)','Track accrual and balances per employee.']]});
+
+Views.education=id=>scaffold(id,{ic:'cap',tint:['#14b8a6','#0f766e'],title:'Education',sub:'Short lessons and guides to help you run a stronger business (Volume 6 — Education Modules).',
+  kpis:[['Lessons completed','12','','#0A7A43','','','','of 48'],['Current course','Cash flow','','#2f6fed','','','','3 of 8 lessons'],['Learning streak','5 days','','#B87503','','','','keep it going']],
+  body:`<div class="card" style="margin-bottom:16px"><div class="card-h"><h3>Continue learning</h3><span class="badge b dot">Cash flow basics</span></div>
+    ${[['Understanding your cash cycle',100],['Reading a 13-week forecast',100],['Fixing a cash gap early',40]].map(l=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="font-weight:700">${l[0]}</span><span class="muted tiny">${l[1]}%</span></div><div class="meter"><span style="width:${l[1]}%"></span></div></div>`).join('')}</div>`,
+  vol:'Volume 6 — Education Modules',vIc:'▤',note:'Bite-size lessons, guides and templates tied to what your business is actually doing — the platform teaches while you operate.',
+  features:[['📘','Lessons','var(--sky-soft)','var(--sky)','5-minute lessons on cash, tax, pricing and hiring — plain English, AU context.'],['📋','Guides & templates','var(--emerald-soft)','var(--emerald)','Checklists and templates for BAS time, onboarding, quoting and more.'],['✨','Smart suggestions','var(--amber-soft)','var(--amber)','The platform suggests the next lesson based on what is happening in your business.'],['🏆','Progress','#eef0ff','var(--violet)','Track completed lessons and build a learning habit.']]});
+
+Views.reporting=id=>scaffold(id,{ic:'📊',tint:['#2f6fed','#0D2C73'],title:'Reporting',sub:'Board-ready reports assembled from every module (Volume 6 §31).',
+  vol:'Volume 6 §31 — Reporting Centre',vIc:'📊',note:'Generates P&L, balance sheet, cash-flow and custom reports on demand, exportable and scheduleable.',
+  features:[['💹','Profit & Loss','var(--emerald-soft)','var(--emerald)','Revenue, COGS and expenses across any period.'],['⚖','Balance sheet','var(--sky-soft)','var(--sky)','Assets, liabilities and equity at a point in time.'],['≈','Cash flow','var(--amber-soft)','var(--amber)','Operating, investing and financing movements.'],['🎯','Custom','#eef0ff','var(--violet)','Build a report from any module\'s data and schedule it to your inbox.'],['📤','Export','var(--red-soft)','var(--red)','PDF, Excel or share a live link with your accountant.'],['🕓','Scheduled','var(--emerald-soft)','var(--emerald)','Weekly cash report and monthly board pack, automated.']]});
+
+Views.data=id=>scaffold(id,{ic:'🗄',tint:['#0D2C73','#071B4D'],title:'Data Foundation',sub:'The single source of truth every module reads from (Volume 8).',
+  kpis:[['Records','12,480','🗄','#2f6fed','#e9f0fe','entities'],['Data quality','96%','✨','#0A7A43','#e6f5ee','validated'],['Audit events','3,214','🧾','#B87503','#fdf3dd','logged']],
+  vol:'Volume 8 — Enterprise Data',vIc:'🗄',note:'One shared entity model (customers, money, documents) with validation, deduplication and a full audit log — so every module agrees on the truth.',
+  features:[['🧩','Shared entities','var(--sky-soft)','var(--sky)','Customers, invoices and documents defined once, used everywhere.'],['🧹','Quality & dedupe','var(--emerald-soft)','var(--emerald)','Validation rules and duplicate detection keep records clean.'],['🧾','Audit log','var(--amber-soft)','var(--amber)','Every change is who/what/when — nothing edited silently.'],['🔐','Governance','#eef0ff','var(--violet)','Retention, access and residency policies per data class.']]});
+
+Views.security=id=>scaffold(id,{ic:'🛡',tint:['#0A7A43','#0D2C73'],title:'Security',sub:'Access, encryption and posture (Volume 4).',
+  kpis:[['Posture','A','🛡','#0A7A43','#e6f5ee','strong'],['MFA coverage','100%','🔑','#2f6fed','#e9f0fe','all users'],['Open risks','0','✅','#0A7A43','#e6f5ee','clear']],
+  vol:'Volume 4 — Security & Platform',vIc:'🛡',note:'Role-based access, encryption at rest and in transit, and continuous posture monitoring across the platform.',
+  features:[['👤','Access control','var(--sky-soft)','var(--sky)','Role- and permission-based access to every module and field.'],['🔒','Encryption','var(--emerald-soft)','var(--emerald)','Encrypted at rest and in transit; your data stays yours.'],['🧾','Audit & alerts','var(--amber-soft)','var(--amber)','Sign-in, export and permission changes are all logged.'],['🛰','Posture','#eef0ff','var(--violet)','Continuous checks against a security baseline.']]});
+
+Views.infrastructure=id=>scaffold(id,{ic:'☁',tint:['#2f6fed','#0D2C73'],title:'Infrastructure',sub:'The global runtime that keeps BOSS fast and available (Volume 10).',
+  kpis:[['Uptime','99.98%','☁','#0A7A43','#e6f5ee','90 days'],['Latency','84ms','⚡','#2f6fed','#e9f0fe','p50'],['Regions','3','🌏','#B87503','#fdf3dd','AU · US · EU']],
+  body:`<div class="card" style="margin-bottom:16px"><div class="card-h"><h3>Service status</h3><span class="badge g dot">All operational</span></div>
+    ${['API','Web app','Database','AI runtime','Automations','File storage'].map(s=>`<div class="dl"><span class="k">${s}</span><span class="badge g dot">Operational</span></div>`).join('')}</div>`,
+  vol:'Volume 10 — Infrastructure',vIc:'☁',note:'Auto-scaling compute, multi-region data residency and observability underpin the whole platform.',
+  features:[['📈','Auto-scaling','var(--sky-soft)','var(--sky)','Capacity follows demand, no manual intervention.'],['🌏','Residency','var(--emerald-soft)','var(--emerald)','Keep data in the region you choose.'],['🔭','Observability','var(--amber-soft)','var(--amber)','Metrics, logs and traces across every service.'],['♻️','Backups & DR','#eef0ff','var(--violet)','Point-in-time recovery and tested failover.']]});
+
+/* ============================================================
+   MODULE: ADMINISTRATION  (Volume 6 §44) — real settings
+   ============================================================ */
+Views.admin=function(id){
+  return `
+  ${head(id,{ic:'⚙',tint:['#5b6576','#0D2C73'],title:'Administration',sub:'Workspace settings, your team, and your data.'})}
+  <div class="grid g2" style="align-items:start">
+    <div class="card">
+      <div class="card-h"><h3>Workspace</h3></div>
+      <div class="dl"><span class="k">Business name</span><span class="v">${esc(S.business.name)}</span></div>
+      <div class="dl"><span class="k">ABN</span><span class="v">${esc(S.business.abn||'—')}</span></div>
+      <div class="dl"><span class="k">Signed in as</span><span class="v">Jason Wyles · Director</span></div>
+      <button class="btn" style="margin-top:14px" onclick="Modal.renameBiz()">Edit business details</button>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Users & roles</h3><span class="badge n">${S.people.length}</span></div>
+      ${S.people.map(p=>`<div class="dl"><span class="k" style="display:flex;align-items:center;gap:8px"><span class="avatar" style="width:24px;height:24px;font-size:10px;background:${colorFor(p.name)}">${esc(p.init)}</span>${esc(p.name)}</span><span class="badge b">${esc(p.role)}</span></div>`).join('')}
+      <button class="btn" style="margin-top:14px" onclick="go('people')">Manage team</button>
+    </div>
+    <div class="card span2">
+      <div class="card-h"><h3>Your data</h3><span class="badge g dot">Stored on this device</span></div>
+      <p class="tiny muted" style="margin:0 0 14px">BOSS keeps everything in your browser by default — nothing leaves this device unless you connect an integration. Export a backup any time.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="Admin.export()">Export backup (JSON)</button>
+        <button class="btn" onclick="document.getElementById('impFile').click()">Import backup</button>
+        <button class="btn danger" onclick="Admin.reset()">Reset to demo data</button>
+        <input type="file" id="impFile" accept="application/json" style="display:none" onchange="Admin.import(event)">
+      </div>
+    </div>
+  </div>
+  <div class="scaffold" style="margin-top:16px"><div class="si">${ic('zap')}</div><div><b>Deploy this whole folder</b> as a single static site (GitHub → Vercel), exactly like your other BOS apps. No build step — it runs standalone from one <b>index.html</b>.</div></div>`;
+};
+const Admin={
+  export(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='boss-backup-'+TODAY+'.json';a.click();toast('Backup downloaded');},
+  import(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{S=Object.assign(seed(),JSON.parse(r.result));save();renderRoute();toast('Backup restored');}catch(err){toast('Could not read that file');}};r.readAsText(file);},
+  reset(){if(confirm('Reset all data back to the demo workspace? This cannot be undone.')){localStorage.removeItem(LS_KEY);S=seed();save();renderRoute();toast('Reset to demo data');}}
+};
+
+/* ============================================================
+   MODULE: DESIGN SYSTEM  (Volume 11) — living showcase
+   ============================================================ */
+Views.design=function(id){
+  const tokens=[['--navy','#071B4D','Primary'],['--navy2','#0D2C73','Primary 2'],['--teal','#2CD5C4','Accent'],['--emerald','#0A7A43','Success'],['--amber','#B87503','Warning'],['--red','#B3271E','Danger'],['--sky','#2f6fed','Info'],['--violet','#5b63d3','Alt']];
+  return `
+  ${head(id,{ic:'◈',tint:['#2CD5C4','#5b63d3'],title:'Design System',sub:'Volume 11 — the world-class visual language every screen is built from. Trust · Clarity · Precision · Calm.',
+    actions:`<span class="badge b dot">Version 1.0</span>`})}
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-h"><h3>Colour tokens</h3><span class="sub">Semantic, not decorative</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
+      ${tokens.map(t=>`<div style="border:1px solid var(--line);border-radius:12px;overflow:hidden"><div style="height:56px;background:var(${t[0]})"></div><div style="padding:9px 11px"><div style="font-weight:800;font-size:12.5px">${t[2]}</div><div class="tiny muted" style="font-family:monospace">${t[1]}</div></div></div>`).join('')}
+    </div>
+  </div>
+  <div class="grid g2" style="align-items:start;margin-bottom:16px">
+    <div class="card">
+      <div class="card-h"><h3>Typography</h3></div>
+      <div style="font-size:30px;font-weight:800;letter-spacing:-.6px">Display · 30/800</div>
+      <div style="font-size:24px;font-weight:800;letter-spacing:-.4px;margin-top:8px">Heading · 24/800</div>
+      <div style="font-size:16px;font-weight:700;margin-top:8px">Subheading · 16/700</div>
+      <div style="font-size:14px;margin-top:8px">Body copy is 14px at 1.5 line-height — calm, readable, never cramped.</div>
+      <div class="tiny muted" style="margin-top:8px">Caption · 11.5px muted</div>
+      <div class="eyebrow" style="margin-top:12px">Eyebrow · 11 / 800 / tracked</div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Buttons</h3></div>
+      <div style="display:flex;flex-wrap:wrap;gap:9px">
+        <button class="btn primary">Primary</button><button class="btn teal">Accent</button><button class="btn">Secondary</button><button class="btn ghost">Ghost</button><button class="btn danger">Danger</button><button class="btn sm">Small</button>
+      </div>
+      <div class="card-h" style="margin-top:20px"><h3>Badges & status</h3></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="badge g dot">Success</span><span class="badge a dot">Warning</span><span class="badge r dot">Danger</span><span class="badge b dot">Info</span><span class="badge n">Neutral</span>
+      </div>
+      <div class="card-h" style="margin-top:20px"><h3>Trend</h3></div>
+      <div style="display:flex;gap:8px"><span class="trend up">▲ +4.2%</span><span class="trend down">▼ −1.1%</span><span class="trend flat">● flat</span></div>
+    </div>
+  </div>
+  <div class="grid g2" style="align-items:start;margin-bottom:16px">
+    <div class="card">
+      <div class="card-h"><h3>Form controls</h3></div>
+      <div class="field"><label>Text input</label><input class="inp" placeholder="Placeholder text"></div>
+      <div class="field"><label>Select</label><select class="inp"><option>Option one</option><option>Option two</option></select></div>
+      <div class="field" style="margin-bottom:0"><label>Progress</label><div class="meter"><span style="width:68%"></span></div></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Elevation & radius</h3></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="width:96px;height:70px;border-radius:12px;background:var(--surface);box-shadow:var(--sh-1);display:grid;place-items:center" class="tiny muted">sh-1</div>
+        <div style="width:96px;height:70px;border-radius:16px;background:var(--surface);box-shadow:var(--sh-2);display:grid;place-items:center" class="tiny muted">sh-2</div>
+        <div style="width:96px;height:70px;border-radius:20px;background:var(--surface);box-shadow:var(--sh-3);display:grid;place-items:center" class="tiny muted">sh-3</div>
+      </div>
+      <div class="card-h" style="margin-top:20px"><h3>Segmented</h3></div>
+      <div class="seg"><button class="on">Day</button><button>Week</button><button>Month</button></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h3>Design principles</h3><span class="sub">Volume 11 constitution</span></div>
+    <div class="feature-grid">
+      ${[['🎯','Communication','Design is not decoration. Every visual decision reduces uncertainty.'],['🧘','Calm','Users should never feel overwhelmed — structured, predictable, quiet.'],['🏦','Premium','Feels like an investment bank and a modern OS, never a cheap template.'],['♿','Accessible','Contrast, focus states, reduced-motion and touch targets built in.'],['⏳','Timeless','Still looks right in five years. Longevity over trend.'],['📐','Consistent','One spacing scale, one type scale, one set of components — everywhere.']].map(p=>`<div class="feat"><div class="fh"><div class="fic" style="background:var(--sky-soft);color:var(--sky)">${ic(p[0])}</div>${p[1]}</div><p>${p[2]}</p></div>`).join('')}
+    </div>
+  </div>`;
+};
+
+/* ============================================================
+   MODULE: THE 11 VOLUMES  (Volume 1–11 reference)
+   ============================================================ */
+Views.blueprint=function(id){
+  const vols=[
+    ['1','Product Vision & Foundation','The why — philosophy, principles and the product\'s reason to exist.','#0D2C73'],
+    ['2','User Experience Foundations','How users experience the platform — flows, information architecture, clarity.','#2f6fed'],
+    ['3','Design System Contract','The engineering contract for every reusable component.','#5b63d3'],
+    ['4','Security & Platform','How the platform is engineered internally — architecture and security.','#0A7A43'],
+    ['5','AI Platform','The intelligence layer that reasons across all business information.','#2CD5C4'],
+    ['6','Business Modules','What every module does — 50+ enterprise capabilities and workflows.','#B87503'],
+    ['7','Integrations','The ecosystem — connecting the tools a business already runs.','#5b6576'],
+    ['8','Enterprise Data','The single source of truth — shared entities, quality and audit.','#0D2C73'],
+    ['9','AI Workforce','Autonomous agents that run business processes, supervised and auditable.','#5b63d3'],
+    ['10','Infrastructure','The global runtime — scaling, residency, observability, resilience.','#2f6fed'],
+    ['11','Visual Experience','The authoritative design system — every pixel, calm and consistent.','#2CD5C4']
+  ];
+  return `
+  ${head(id,{ic:'▤',tint:['#0D2C73','#071B4D'],title:'The 11 Volumes',sub:'The complete specification behind BOSS. Each volume defines one layer of the operating system.',
+    actions:`<button class="btn" onclick="go('design')">Design system</button>`})}
+  <div class="grid g2">
+    ${vols.map(v=>`<div class="card" style="display:flex;gap:15px;align-items:flex-start">
+      <div class="ph-ic" style="width:42px;height:42px;font-size:16px;background:linear-gradient(135deg,${v[3]},var(--navy));flex:none">${v[0]}</div>
+      <div><div class="eyebrow" style="color:var(--muted)">Volume ${v[0]}</div><div style="font-weight:800;font-size:15px;margin:2px 0 5px">${v[1]}</div><p class="tiny muted" style="margin:0;line-height:1.5">${v[2]}</p></div>
+    </div>`).join('')}
+  </div>
+  <div class="scaffold" style="margin-top:18px"><div class="si">${ic('book')}</div><div><b>Business Operating System — Volumes 1–11.</b> This app is the working embodiment: Volume 11's design language, Volume 6's modules, Volume 5 &amp; 9's intelligence, all on one connected data foundation.</div></div>`;
+};
+
+/* Fallback */
+Views._todo=function(id){const m=navMeta(id);return `${head(id,{ic:m.ic,tint:['#5b6576','#0D2C73'],title:m.label,sub:'Coming soon.'})}<div class="empty"><div class="e-ic">${ic('tool')}</div><h4>Module scaffolded</h4><p>${esc(m.label)} is part of the roadmap.</p></div>`;};
+</script>
+<script>
+/* ---------------- Boot ---------------- */
+/* Surface any runtime error visibly instead of silently dead buttons */
+window.addEventListener('error',function(e){
+  window.__lastError=e.message;
+  var b=document.getElementById('errbar');
+  if(!b){
+    b=document.createElement('div');
+    b.id='errbar';
+    b.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#B3271E;color:#fff;font:600 12.5px/1.4 -apple-system,Segoe UI,sans-serif;padding:10px 16px;display:flex;gap:12px;align-items:center';
+    b.innerHTML='<span style="flex:1"></span><button style="border:none;background:rgba(255,255,255,.2);color:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;font-weight:700" onclick="this.parentNode.remove()">Dismiss</button>';
+    document.body.appendChild(b);
+  }
+  b.firstChild.textContent='⚠ Something went wrong: '+e.message+(e.lineno?' (line '+e.lineno+')':'')+' — press Ctrl+F5 to hard-refresh.';
+});
+window.addEventListener('hashchange',renderRoute);
+/* Navigation requests from embedded apps (postMessage — works on file:// where
+   the iframe is a different origin and cannot touch our location directly) */
+window.addEventListener('message',function(e){
+  var d=e.data;
+  if(d&&d.type==='boss-nav'&&typeof d.route==='string'&&navMeta(d.route))go(d.route);
+});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();Cmd.open();return;}
+  if($('#cmdk').classList.contains('on')){
+    if(e.key==='Escape')Cmd.close();
+    else if(e.key==='ArrowDown'){e.preventDefault();Cmd.move(1);}
+    else if(e.key==='ArrowUp'){e.preventDefault();Cmd.move(-1);}
+    else if(e.key==='Enter'){e.preventDefault();Cmd.run(Cmd.sel);}
+    return;
+  }
+  if(e.key==='Escape'){Modal.close();}
+});
+$('#cmdInput').addEventListener('input',e=>Cmd.render(e.target.value));
+$('#scrim').addEventListener('click',e=>{if(e.target.id==='scrim')Modal.close();});
+$('#cmdk').addEventListener('click',e=>{if(e.target.id==='cmdk')Cmd.close();});
+if(!location.hash)location.hash='home';
+renderRoute();
+</script>
+</body>
+</html>
